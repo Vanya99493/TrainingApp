@@ -19,7 +19,7 @@ namespace TrainingApp.UI
 			_panels = new()
 			{
 				{ typeof(MainMenuPanel), _mainMenuPanel },
-				{ typeof(TrainingPanel), _mainMenuPanel },
+				{ typeof(TrainingPanel), _trainingPanel },
 			};
 			
 			CloseAllPanels();

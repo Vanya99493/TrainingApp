@@ -28,7 +28,10 @@ namespace TrainingApp.Entry
 			ServiceLocator.Instance.Register(_accountController);
 			ServiceLocator.Instance.Register(_imageProvider);
 			
+			_accountController.Initialize();
+			_uiManager.Initialize();
 			
+			_uiManager.OpenMainMenuPanel();
 		}
 	}
 }

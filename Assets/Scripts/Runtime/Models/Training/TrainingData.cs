@@ -1,21 +1,14 @@
 ﻿using System;
-using UnityEngine;
+using System.Collections.Generic;
 
 namespace TrainingApp.Models
 {
 	[Serializable]
 	public class TrainingData
 	{
-		[field: SerializeField]
-		public string Guid { get; private set; }
-		
-		[field: SerializeField]
-		public string Name { get; private set; }
-		
-		[field: SerializeField]
-		public int ImageIndex { get; private set; }
-		
-		[field: SerializeField]
-		public ExerciseData[] Exercises { get; private set; }
+		public string Guid = "";
+		public string Name = "";
+		public int ImageIndex;
+		public List<ExerciseData> Exercises;
 	}
 }
