@@ -10,7 +10,7 @@ namespace TrainingApp.Models
 		public string Version = "";
 		public string ExerciseGuid = "";
 		public TeethData TeethData;
-		public UnhealthyData UnhealthyData;
+		public HarmfulActivitiesData HarmfulActivitiesData;
 		public bool IsTrainingComplete;
 
 		public DayData(string exerciseGuid = "")
@@ -19,7 +19,7 @@ namespace TrainingApp.Models
 			Version = ApplicationInfoProvider.ApplicationVersion;
 			ExerciseGuid = exerciseGuid;
 			TeethData = new();
-			UnhealthyData = new();
+			HarmfulActivitiesData = new();
 			IsTrainingComplete = false;
 		}
 	}

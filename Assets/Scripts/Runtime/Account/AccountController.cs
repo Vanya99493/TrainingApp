@@ -20,6 +20,8 @@ namespace TrainingApp.AccountScripts
 
 		public int GetStreak() => 0;
 
+		public DayData GetDayData(DateTime dateTime) => ClientData.DaysData.GetDayData(dateTime);
+
 		public TrainingData GetTraining(string guid) => ClientData.TrainingsDataContainer.GetTrainingData(guid);
 
 		public TrainingData GetTodayTraining() => GetTrainingOfDay(DateTime.Today);
