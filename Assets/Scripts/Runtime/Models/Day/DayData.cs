@@ -12,6 +12,7 @@ namespace TrainingApp.Models
 		public TeethData TeethData;
 		public HarmfulActivitiesData HarmfulActivitiesData;
 		public bool IsTrainingComplete;
+		public int SetsCount;
 
 		public DayData(string exerciseGuid = "")
 		{
@@ -20,7 +21,6 @@ namespace TrainingApp.Models
 			ExerciseGuid = exerciseGuid;
 			TeethData = new();
 			HarmfulActivitiesData = new();
-			IsTrainingComplete = false;
 		}
 	}
 }

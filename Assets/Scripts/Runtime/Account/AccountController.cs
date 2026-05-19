@@ -16,6 +16,11 @@ namespace TrainingApp.AccountScripts
 		{
 			_clientDataProvider = new PlayerPrefsClientDataProvider();
 			ClientData = _clientDataProvider.LoadData<ClientData>();
+
+			if (ClientData == null)
+			{
+				ClientData = new();
+			}
 		}
 
 		public int GetStreak() => 0;

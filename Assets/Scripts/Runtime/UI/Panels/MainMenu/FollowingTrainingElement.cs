@@ -26,13 +26,24 @@ namespace TrainingApp.UI
 		[SerializeField]
 		private Button _openTrainingButton;
 
-		public event Action<string> OpenTrainingEvent;
+		[SerializeField]
+		private GameObject _dayWithoutTrainingView;
 
-		private string _guid;
+		public event Action<DateTime> OpenTrainingEvent;
+
+		private DateTime _date;
 		
 		public void Initialize(DayType assignedDay, DateTime date, TrainingData trainingData)
 		{
-			_guid = trainingData.Guid;
+			if (trainingData == null)
+			{
+				_dayWithoutTrainingView.SetActive(true);
+				return;
+			}
+			
+			_dayWithoutTrainingView.SetActive(false);
+
+			_date = date;
 			
 			_assignedDayText.text = assignedDay.ToString();
 			_dateText.text = date.ToString("dd.MM");
@@ -52,7 +63,7 @@ namespace TrainingApp.UI
 
 		private void OnOpenTrainingButtonClickedEventHandler()
 		{
-			OpenTrainingEvent?.Invoke(_guid);
+			OpenTrainingEvent?.Invoke(_date);
 		}
 	}
 }

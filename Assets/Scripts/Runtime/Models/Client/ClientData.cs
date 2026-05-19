@@ -6,7 +6,7 @@ namespace TrainingApp.Models
 	public class ClientData
 	{
 		public string Name = "";
-		public DaysDataContainer DaysData;
-		public TrainingsDataContainer TrainingsDataContainer;
+		public DaysDataContainer DaysData = new();
+		public TrainingsDataContainer TrainingsDataContainer = new();
 	}
 }

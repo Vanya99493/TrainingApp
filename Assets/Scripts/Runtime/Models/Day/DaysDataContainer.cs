@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using TrainingApp.ApplicationScripts;
 
 namespace TrainingApp.Models
 {
@@ -11,9 +11,18 @@ namespace TrainingApp.Models
 
 		public DayData GetDayData(DateTime dateTime)
 		{
-			return Years.FirstOrDefault(x => x.Key == dateTime.Year).Value
-				.Month.FirstOrDefault(x => x.Key == dateTime.Month).Value
-				.Days.FirstOrDefault(x => x.Key == dateTime.Day).Value;
+			if (!Years.TryGetValue(dateTime.Year, out var year) ||
+			    !year.Months.TryGetValue(dateTime.Month, out var month) ||
+			    !month.Days.TryGetValue(dateTime.Day, out var day))
+			{
+				return new DayData()
+				{
+					DateTime = DateTime.Today,
+					Version = ApplicationInfoProvider.ApplicationVersion
+				};
+			}
+
+			return day;
 		}
 	}
 }

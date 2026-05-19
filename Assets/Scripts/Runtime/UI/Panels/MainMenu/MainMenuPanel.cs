@@ -76,9 +76,9 @@ namespace TrainingApp.UI
 			_accountController.GetDayData(DateTime.Today).HarmfulActivitiesData = harmfulActivitiesData;
 		}
 
-		private void OpenTrainingPanel(string guid)
+		private void OpenTrainingPanel(DateTime date)
 		{
-			_uiManager.OpenInstead<TrainingPanel>(this);
+			_uiManager.OpenTrainingPanel(_accountController.GetDayData(date));
 		}
 	}
 }

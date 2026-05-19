@@ -47,13 +47,13 @@ namespace TrainingApp.UI
 			
 			if (isActive)
 			{
-				_affirmativeState?.SetActive(false);
-				_negativeState?.SetActive(true);
+				_affirmativeState?.SetActive(true);
+				_negativeState?.SetActive(false);
 			}
 			else
 			{
-				_affirmativeState?.SetActive(true);
-				_negativeState?.SetActive(false);
+				_affirmativeState?.SetActive(false);
+				_negativeState?.SetActive(true);
 			}
 			
 			ToggleButtonStateChangedEvent?.Invoke(_isActive);

@@ -6,6 +6,6 @@ namespace TrainingApp.Models
 	[Serializable]
 	public class YearData
 	{
-		public SortedDictionary<int, MonthData> Month = new();
+		public SortedDictionary<int, MonthData> Months = new();
 	}
 }

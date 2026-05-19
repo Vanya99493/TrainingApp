@@ -9,6 +9,6 @@ namespace TrainingApp.Models
 		public string Guid = "";
 		public string Name = "";
 		public int ImageIndex;
-		public List<ExerciseData> Exercises;
+		public List<ExerciseData> Exercises = new();
 	}
 }
