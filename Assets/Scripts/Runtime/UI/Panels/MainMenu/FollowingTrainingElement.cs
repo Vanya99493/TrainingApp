@@ -48,7 +48,7 @@ namespace TrainingApp.UI
 			_assignedDayText.text = assignedDay.ToString();
 			_dateText.text = date.ToString("dd.MM");
 			_trainingName.text = trainingData.Name;
-			_trainingImage.sprite = ServiceLocator.Instance.Get<ImageProvider>().GetImage(trainingData.ImageIndex);
+			_trainingImage.sprite = ServiceLocator.Instance.Get<ImageProvider>().GetImage(trainingData.LogoSpriteIndex);
 		}
 
 		private void OnEnable()

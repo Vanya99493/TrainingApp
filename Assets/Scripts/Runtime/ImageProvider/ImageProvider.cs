@@ -12,5 +12,15 @@ namespace TrainingApp.ImageProviderScripts
 		{
 			return _images[index];
 		}
+
+		public Sprite[] GetImages()
+		{
+			Sprite[] sprites = new Sprite[_images.Length];
+			for (int i = 0; i < _images.Length; i++)
+			{
+				sprites[i] = _images[i];
+			}
+			return sprites;
+		}
 	}
 }

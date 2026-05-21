@@ -39,7 +39,7 @@ namespace TrainingApp.UI
 			_trainingData = trainingData;
 
 			_trainingPlanNameText.text = _trainingData.Name;
-			_trainingPlanImage.sprite = ServiceLocator.Instance.Get<ImageProvider>().GetImage(_trainingData.ImageIndex);
+			_trainingPlanImage.sprite = ServiceLocator.Instance.Get<ImageProvider>().GetImage(_trainingData.LogoSpriteIndex);
 		}
 		
 		public void Destroy()

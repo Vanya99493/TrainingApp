@@ -12,6 +12,7 @@ namespace TrainingApp.Models
 		public TeethData TeethData;
 		public HarmfulActivitiesData HarmfulActivitiesData;
 		public bool IsTrainingComplete;
+		public bool IsTrainingHalfCompletedByActivities;
 		public int SetsCount;
 
 		public DayData(string exerciseGuid = "")
