@@ -17,7 +17,7 @@ namespace TrainingApp.Models
 			{
 				return new DayData()
 				{
-					DateTime = DateTime.Today,
+					DateTime = dateTime,
 					Version = ApplicationInfoProvider.ApplicationVersion
 				};
 			}

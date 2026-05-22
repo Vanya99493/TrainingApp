@@ -1,6 +1,7 @@
 ﻿using System;
 using TMPro;
 using TrainingApp.Configs.UI;
+using TrainingApp.Constants;
 using TrainingApp.Models;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,25 +26,10 @@ namespace TrainingApp.UI
 		[SerializeField]
 		private ButtonPresetConfig _buttonPresetConfig;
 
-		private string _exerciseGuid;
-		
-		public event Action<string> SelectDayEvent;
 		public event Action<CalendarDayElement> DestroyEvent;
 
-		private void OnEnable()
+		public void Initialize(DayData dayData, Sprite exerciseLogo, Action<DayData> daySelectCallback = null)
 		{
-			_dayButton.onClick.AddListener(OnDayButtonClickedEventHandler);
-		}
-
-		private void OnDisable()
-		{
-			_dayButton.onClick.RemoveListener(OnDayButtonClickedEventHandler);
-		}
-		
-		public void Initialize(DayData dayData, Sprite exerciseLogo)
-		{
-			_exerciseGuid = dayData.ExerciseGuid;
-			
 			_dayText.text = dayData.DateTime.Day.ToString();
 
 			if (exerciseLogo)
@@ -56,16 +42,14 @@ namespace TrainingApp.UI
 			}
 
 			SetBackgroundColor(dayData);
+
+			_dayButton.onClick.RemoveAllListeners();
+			_dayButton.onClick.AddListener(() => daySelectCallback?.Invoke(dayData));
 		}
 		
 		public void Destroy()
 		{
 			DestroyEvent?.Invoke(this);
-		}
-		
-		private void OnDayButtonClickedEventHandler()
-		{
-			SelectDayEvent?.Invoke(_exerciseGuid);
 		}
 		
 		private void SetBackgroundColor(DayData dayData)
@@ -80,7 +64,7 @@ namespace TrainingApp.UI
 			{
 				backgroundColor = _buttonPresetConfig.HalfCompletedTrainingColor;
 			}
-			else if (dayData.DateTime.Date >= DateTime.Today.Date)
+			else if (dayData.DateTime.Date >= DateTime.Today.Date || dayData.ExerciseGuid == UIConstants.REST_FROM_TRAINING || dayData.ExerciseGuid == "")
 			{
 				backgroundColor = _buttonPresetConfig.InactiveColor;
 			}

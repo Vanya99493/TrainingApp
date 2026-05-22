@@ -1,7 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using TMPro;
+using TrainingApp.AccountScripts;
+using TrainingApp.Constants;
 using TrainingApp.Enums;
+using TrainingApp.ImageProviderScripts;
+using TrainingApp.Models;
+using TrainingApp.ServiceLocatorScripts;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,30 +16,51 @@ namespace TrainingApp.UI
 	{
 		[SerializeField]
 		private CalendarRowElementFactory _calendarRowElementFactory;
-		
+
 		[Space(10)]
 		[SerializeField]
 		private Button _previousButton;
 
 		[SerializeField]
 		private Button _nextButton;
-		
+
 		[SerializeField]
 		private TMP_Text _yearText;
 
 		[SerializeField]
 		private TMP_Text _monthText;
 
+		private AccountController _accountController;
+		private ImageProvider _imageProvider;
+
 		private List<CalendarRowElement> _calendarRowElements = new();
 		private DateTime _currentSetDate;
+
+		public override void Initialize(UIManager uiManager)
+		{
+			base.Initialize(uiManager);
+
+			_accountController = ServiceLocator.Instance.Get<AccountController>();
+			_imageProvider = ServiceLocator.Instance.Get<ImageProvider>();
+		}
 
 		public override void Open()
 		{
 			base.Open();
-			
+
 			SetCalendar(DateTime.Today);
 		}
-		
+
+		public override void Close()
+		{
+			base.Close();
+
+			foreach (var calendarRowElement in _calendarRowElements)
+			{
+				calendarRowElement.Destroy();
+			}
+		}
+
 		protected override void SubscribeOnEvents()
 		{
 			base.SubscribeOnEvents();
@@ -69,8 +95,29 @@ namespace TrainingApp.UI
 			_monthText.text = ((Months)date.Month).ToString();
 
 			List<List<DateTime>> weeks = DivideByWeeks(date);
-			
-			
+			List<List<(DayData, Sprite)>> weeksData = ConvertToDayData(weeks);
+
+			int index = 0;
+			foreach (var weekData in weeksData)
+			{
+				WeekType weekType = WeekType.Common;
+
+				if (index == 0)
+				{
+					weekType = WeekType.First;
+				}
+
+				if (weeksData.Count - index == 0)
+				{
+					weekType = WeekType.Last;
+				}
+
+				var calendarRowElement = _calendarRowElementFactory.InstantiateElement();
+				calendarRowElement.Initialize(weekData, weekType, OnDayElementButtonClickedEventHandler);
+				_calendarRowElements.Add(calendarRowElement);
+
+				index++;
+			}
 		}
 
 		private List<List<DateTime>> DivideByWeeks(DateTime date)
@@ -98,6 +145,39 @@ namespace TrainingApp.UI
 			}
 
 			return result;
+		}
+
+		private List<List<(DayData, Sprite)>> ConvertToDayData(List<List<DateTime>> weeks)
+		{
+			List<List<(DayData, Sprite)>> weeksData = new();
+
+			foreach (var week in weeks)
+			{
+				List<(DayData, Sprite)> weekData = new();
+
+				foreach (var day in week)
+				{
+					DayData dayData = _accountController.GetDayData(day);
+					Sprite logoSprite = dayData.ExerciseGuid switch
+					{
+						UIConstants.REST_FROM_TRAINING => _imageProvider.GetRestImage(),
+						"" => null,
+						_ => _imageProvider.GetImage(_accountController.GetTraining(dayData.ExerciseGuid)
+							.LogoSpriteIndex)
+					};
+
+					weekData.Add((dayData, logoSprite));
+				}
+
+				weeksData.Add(weekData);
+			}
+
+			return weeksData;
+		}
+
+		private void OnDayElementButtonClickedEventHandler(DayData selectedDayData)
+		{
+			_uiManager.OpenDayOverviewPanel(selectedDayData);
 		}
 	}
 }

@@ -6,19 +6,19 @@ namespace TrainingApp.UIFactoryScripts
 	public class UIFactory<T> : MonoBehaviour where T : MonoBehaviour, IDestroyableElement<T>
 	{
 		[SerializeField]
-		private T _elementPrefab;
+		protected T _elementPrefab;
 
 		[SerializeField]
-		private Transform _elementParent;
+		protected Transform _elementParent;
 		
-		public T InstantiateElement()
+		public virtual T InstantiateElement()
 		{
 			var element = Instantiate(_elementPrefab, _elementParent);
 			element.DestroyEvent += OnElementDestroyEventHandler;
 			return element;
 		}
 
-		private void OnElementDestroyEventHandler(T element)
+		protected virtual void OnElementDestroyEventHandler(T element)
 		{
 			Destroy(element.gameObject);
 		}
