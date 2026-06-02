@@ -55,10 +55,7 @@ namespace TrainingApp.UI
 		{
 			base.Close();
 
-			foreach (var calendarRowElement in _calendarRowElements)
-			{
-				calendarRowElement.Destroy();
-			}
+			ClearCalendar();
 		}
 
 		protected override void SubscribeOnEvents()
@@ -89,6 +86,8 @@ namespace TrainingApp.UI
 
 		private void SetCalendar(DateTime date)
 		{
+			ClearCalendar();
+			
 			_currentSetDate = date;
 
 			_yearText.text = date.Year.ToString();
@@ -107,7 +106,7 @@ namespace TrainingApp.UI
 					weekType = WeekType.First;
 				}
 
-				if (weeksData.Count - index == 0)
+				if (weeksData.Count - (index + 1) == 0)
 				{
 					weekType = WeekType.Last;
 				}
@@ -137,6 +136,11 @@ namespace TrainingApp.UI
 
 				do
 				{
+					if (current > monthEnd)
+					{
+						break;
+					}
+					
 					week.Add(current);
 					current = current.AddDays(1);
 				} while (current.DayOfWeek != DayOfWeek.Monday);
@@ -175,8 +179,18 @@ namespace TrainingApp.UI
 			return weeksData;
 		}
 
+		private void ClearCalendar()
+		{
+			foreach (var calendarRowElement in _calendarRowElements)
+			{
+				calendarRowElement.Destroy();
+			}
+			_calendarRowElements.Clear();
+		}
+
 		private void OnDayElementButtonClickedEventHandler(DayData selectedDayData)
 		{
+			_uiManager.CloseCalendarPanel();
 			_uiManager.OpenDayOverviewPanel(selectedDayData);
 		}
 	}

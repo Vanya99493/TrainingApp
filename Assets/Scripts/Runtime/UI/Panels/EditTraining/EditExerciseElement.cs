@@ -12,10 +12,10 @@ namespace TrainingApp.UI
 		private Button _deleteButton;
 
 		[SerializeField]
-		private TMP_InputField _editNameInputField;
+		private ValidatableInputFieldElement _editNameInputField;
 		
 		[SerializeField]
-		private TMP_InputField _editRepetitionsNumberInputField;
+		private ValidatableInputFieldElement _editRepetitionsNumberInputField;
 
 		[SerializeField]
 		private TMP_InputField _editDescriptionInputField;
@@ -34,9 +34,27 @@ namespace TrainingApp.UI
 
 		public void Initialize(ExerciseData exerciseData)
 		{
-			_editNameInputField.text = exerciseData.Name;
-			_editRepetitionsNumberInputField.text = exerciseData.RepetitionsNumber.ToString();
+			_editNameInputField.Initialize(exerciseData.Name);
+			_editRepetitionsNumberInputField.Initialize(exerciseData.RepetitionsNumber.ToString());
 			_editDescriptionInputField.text = exerciseData.Description;
+		}
+
+		public bool ValidateData(out ExerciseData exerciseData)
+		{
+			if (_editNameInputField.Validate() & _editRepetitionsNumberInputField.Validate())
+			{
+				exerciseData = new ExerciseData()
+				{
+					Name = _editNameInputField.Text,
+					RepetitionsNumber = Convert.ToInt32(_editRepetitionsNumberInputField.Text),
+					Description = _editDescriptionInputField.text,
+				};
+
+				return true;
+			}
+
+			exerciseData = null;
+			return false;
 		}
 		
 		public void Destroy()

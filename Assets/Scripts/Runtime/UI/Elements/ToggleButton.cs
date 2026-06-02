@@ -33,6 +33,8 @@ namespace TrainingApp.UI
 
 		public void Initialize(bool isActive)
 		{
+			ToggleButtonStateChangedEvent = null;
+			
 			SetState(isActive);
 		}
 
@@ -57,6 +59,11 @@ namespace TrainingApp.UI
 			}
 			
 			ToggleButtonStateChangedEvent?.Invoke(_isActive);
+		}
+
+		public void SetInteractable(bool isInteractable)
+		{
+			_button.interactable = isInteractable;
 		}
 	}
 }

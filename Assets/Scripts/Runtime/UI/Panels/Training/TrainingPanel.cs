@@ -21,6 +21,9 @@ namespace TrainingApp.UI
 		private Button _backButton;
 
 		[SerializeField]
+		private SetsNumberControllerElement _setsNumberControllerElement;
+
+		[SerializeField]
 		private ToggleButton _markDoneToggleButton;
 
 		private DayData _dayData;
@@ -29,6 +32,8 @@ namespace TrainingApp.UI
 
 		public void Open(DayData dayData)
 		{
+			ClearExerciseElements();
+			
 			base.Open();
 
 			_dayData = dayData;
@@ -39,17 +44,18 @@ namespace TrainingApp.UI
 			{
 				_exerciseElements.Add(_exerciseElementFactory.InstantiateExerciseElement(exerciseData));
 			}
+
+			int setsElementIndex = SetsNumberToElementIndex(dayData.SetsCount);
+			_setsNumberControllerElement.Initialize(setsElementIndex);
+			_markDoneToggleButton.Initialize(dayData.IsTrainingComplete);
+			_markDoneToggleButton.SetInteractable(setsElementIndex != -1);
 		}
 		
 		public override void Close()
 		{
 			base.Close();
 
-			foreach (var exerciseElement in _exerciseElements)
-			{
-				exerciseElement.Destroy();
-			}
-			_exerciseElements.Clear();
+			ClearExerciseElements();
 		}
 
 		protected override void SubscribeOnEvents()
@@ -58,6 +64,7 @@ namespace TrainingApp.UI
 			
 			_backButton.onClick.AddListener(OnBackButtonClickedEventHandler);
 			_markDoneToggleButton.ToggleButtonStateChangedEvent += OnMarkDoneButtonClickedEventHandler;
+			_setsNumberControllerElement.SelectSetIndexEvent += OnSelectSetIndexEventHandler;
 		}
 
 		protected override void UnsubscribeFromEvents()
@@ -66,16 +73,64 @@ namespace TrainingApp.UI
 			
 			_backButton.onClick.RemoveListener(OnBackButtonClickedEventHandler);
 			_markDoneToggleButton.ToggleButtonStateChangedEvent -= OnMarkDoneButtonClickedEventHandler;
+			_setsNumberControllerElement.SelectSetIndexEvent -= OnSelectSetIndexEventHandler;
 		}
 
 		private void OnBackButtonClickedEventHandler()
 		{
-			_uiManager.OpenInstead<MainMenuPanel>(this);
+			_uiManager.CloseTrainingPanel();
 		}
 
 		private void OnMarkDoneButtonClickedEventHandler(bool isActive)
 		{
 			_dayData.IsTrainingComplete = isActive;
+		}
+
+		private void OnSelectSetIndexEventHandler(int index)
+		{
+			int setsNumber = ElementIndexToSetsNumber(index);
+
+			if (index < 0)
+			{
+				_markDoneToggleButton.SetState(false);
+				_markDoneToggleButton.SetInteractable(false);
+			}
+			else
+			{
+				_dayData.SetsCount = setsNumber;
+				_markDoneToggleButton.SetInteractable(true);
+			}
+		}
+
+		private void ClearExerciseElements()
+		{
+			foreach (var exerciseElement in _exerciseElements)
+			{
+				exerciseElement.Destroy();
+			}
+			_exerciseElements.Clear();
+		}
+
+		private int SetsNumberToElementIndex(int setsNumber)
+		{
+			return setsNumber switch
+			{
+				2 => 0,
+				3 => 1,
+				4 => 2,
+				_ => -1,
+			};
+		}
+
+		private int ElementIndexToSetsNumber(int elementIndex)
+		{
+			return elementIndex switch
+			{
+				0 => 2,
+				1 => 3,
+				2 => 4,
+				_ => 0,
+			};
 		}
 	}
 }

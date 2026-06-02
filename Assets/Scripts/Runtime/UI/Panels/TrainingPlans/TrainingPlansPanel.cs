@@ -29,6 +29,8 @@ namespace TrainingApp.UI
 
 		public override void Open()
 		{
+			ClearTrainingPlanElements();
+			
 			base.Open();
 
 			var trainings = _accountController.ClientData.TrainingsDataContainer.Trainings;
@@ -44,11 +46,7 @@ namespace TrainingApp.UI
 		{
 			base.Close();
 
-			foreach (var trainingPlanElement in _trainingPlanElements)
-			{
-				trainingPlanElement.Destroy();
-			}
-			_trainingPlanElements.Clear();
+			ClearTrainingPlanElements();
 		}
 
 		protected override void SubscribeOnEvents()
@@ -67,12 +65,22 @@ namespace TrainingApp.UI
 
 		private void OnAddPlanButtonClickedEventHandler()
 		{
-			_uiManager.OpenEditTrainingPanel(null);
+			_uiManager.OpenEditTrainingPanel(new TrainingData());
 		}
 		
 		private void OnOpenTrainingPlanEventHandler(TrainingData trainingData)
 		{
+			_uiManager.CloseTrainingPlansPanel();
 			_uiManager.OpenEditTrainingPanel(trainingData);
+		}
+		
+		private void ClearTrainingPlanElements()
+		{
+			foreach (var trainingPlanElement in _trainingPlanElements)
+			{
+				trainingPlanElement.Destroy();
+			}
+			_trainingPlanElements.Clear();
 		}
 	}
 }

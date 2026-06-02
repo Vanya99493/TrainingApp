@@ -17,7 +17,7 @@ namespace TrainingApp.UI
 
 		public event Action<int> SelectLogoEvent;
 
-		public void Open(Sprite[] logos)
+		public void Open(Sprite[] logos, int currentLogoIndex)
 		{
 			base.Open();
 			
@@ -25,10 +25,17 @@ namespace TrainingApp.UI
 			{
 				int logoIndex = i;
 				var logoButton = _logoButtonElementFactory.InstantiateElement();
-				logoButton.Initialize(logos[i], logoIndex);
+				logoButton.Initialize(logos[i], logoIndex, i == currentLogoIndex);
 				logoButton.SelectLogoEvent += OnLogoSelectEventHandler;
 				_logoButtonElements.Add(logoButton);
 			}
+		}
+
+		public override void Close()
+		{
+			base.Close();
+
+			ClearLogos();
 		}
 
 		protected override void SubscribeOnEvents()
@@ -47,12 +54,22 @@ namespace TrainingApp.UI
 
 		private void OnCloseButtonClickedEventHandler()
 		{
-			gameObject.SetActive(false);
+			Close();
 		}
 
 		private void OnLogoSelectEventHandler(int logoIndex)
 		{
 			SelectLogoEvent?.Invoke(logoIndex);
+			Close();
+		}
+
+		private void ClearLogos()
+		{
+			foreach (var logoButtonElement in _logoButtonElements)
+			{
+				logoButtonElement.Destroy();
+			}
+			_logoButtonElements.Clear();
 		}
 	}
 }

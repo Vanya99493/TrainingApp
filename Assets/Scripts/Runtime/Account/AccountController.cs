@@ -2,6 +2,7 @@
 using TrainingApp.Models;
 using TrainingApp.ServiceLocatorScripts;
 using TrainingApp.SessionScripts;
+using TrainingApp.Utils;
 using UnityEngine;
 
 namespace TrainingApp.AccountScripts
@@ -27,11 +28,28 @@ namespace TrainingApp.AccountScripts
 
 		public DayData GetDayData(DateTime dateTime) => ClientData.DaysData.GetDayData(dateTime);
 
+		public void AddOrUpdateDayData(DayData dayData)
+		{
+			ClientData.DaysData.SetOrUpdateDayData(dayData);
+			_clientDataProvider.SaveData(ClientData);
+		}
+
 		public TrainingData GetTraining(string guid) => ClientData.TrainingsDataContainer.GetTrainingData(guid);
 
 		public TrainingData GetTodayTraining() => GetTrainingOfDay(DateTime.Today);
 		
 		public TrainingData GetTomorrowsTraining() => GetTrainingOfDay(DateTime.Today.AddDays(1));
+
+		public void AddOrUpdateTrainingData(TrainingData trainingData)
+		{
+			if (trainingData.Guid == "")
+			{
+				trainingData.Guid = GuidGenerator.GenerateGuid();
+			}
+			
+			ClientData.TrainingsDataContainer.AddOrUpdateTrainingData(trainingData);
+			_clientDataProvider.SaveData(ClientData);
+		}
 
 		private TrainingData GetTrainingOfDay(DateTime dateTime)
 		{

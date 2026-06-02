@@ -27,10 +27,15 @@ namespace TrainingApp.UI
 			_button.onClick.RemoveListener(OnSelectLogoButtonClickedEventHandler);
 		}
 
-		public void Initialize(Sprite logoSprite, int index)
+		public void Initialize(Sprite logoSprite, int index, bool isSelected = false)
 		{
 			_logoImage.sprite = logoSprite;
 			_logoIndex = index;
+
+			if (isSelected)
+			{
+				_button.GetComponent<Image>().color = Color.greenYellow;
+			}
 		}
 		
 		public void Destroy()

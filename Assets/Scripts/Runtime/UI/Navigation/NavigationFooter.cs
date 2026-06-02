@@ -39,25 +39,25 @@ namespace TrainingApp.UI
 
 		private void OnProfileButtonCLickedEventHandler()
 		{
-			_uiManager.CloseCurrentActivePanel();
+			_uiManager.CloseCurrentActivePanels();
 			// TODO: add profile panel opening
 		}
 
 		private void OnTrainingPlansButtonClickedEventHandler()
 		{
-			_uiManager.CloseCurrentActivePanel();
+			_uiManager.CloseCurrentActivePanels();
 			_uiManager.OpenTrainingPlansPanel();
 		}
 
 		private void OnCalendarButtonClickedEventHandler()
 		{
-			_uiManager.CloseCurrentActivePanel();
+			_uiManager.CloseCurrentActivePanels();
 			_uiManager.OpenCalendarPanel();
 		}
 
 		private void OnMainMenuButtonClickedEventHandler()
 		{
-			_uiManager.CloseCurrentActivePanel();
+			_uiManager.CloseCurrentActivePanels();
 			_uiManager.OpenMainMenuPanel();
 		}
 	}

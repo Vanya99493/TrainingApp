@@ -13,5 +13,19 @@ namespace TrainingApp.Models
 		{
 			return Trainings.FirstOrDefault(x => x.Guid == guid);
 		}
+
+		public void AddOrUpdateTrainingData(TrainingData trainingData)
+		{
+			int index = Trainings.FindIndex(x => x.Guid == trainingData.Guid);
+
+			if (index != -1)
+			{
+				Trainings[index] = trainingData;
+			}
+			else
+			{
+				Trainings.Add(trainingData);
+			}
+		}
 	}
 }

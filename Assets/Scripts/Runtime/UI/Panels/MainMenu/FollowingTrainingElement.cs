@@ -35,6 +35,10 @@ namespace TrainingApp.UI
 		
 		public void Initialize(DayType assignedDay, DateTime date, TrainingData trainingData)
 		{
+			_date = date;
+			_assignedDayText.text = assignedDay.ToString();
+			_dateText.text = date.ToString("dd.MM");
+			
 			if (trainingData == null)
 			{
 				_dayWithoutTrainingView.SetActive(true);
@@ -43,10 +47,6 @@ namespace TrainingApp.UI
 			
 			_dayWithoutTrainingView.SetActive(false);
 
-			_date = date;
-			
-			_assignedDayText.text = assignedDay.ToString();
-			_dateText.text = date.ToString("dd.MM");
 			_trainingName.text = trainingData.Name;
 			_trainingImage.sprite = ServiceLocator.Instance.Get<ImageProvider>().GetImage(trainingData.LogoSpriteIndex);
 		}

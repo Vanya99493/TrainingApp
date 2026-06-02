@@ -42,6 +42,12 @@ namespace TrainingApp.UI
 		
 		public void Destroy()
 		{
+			foreach (var calendarDayElement in _calendarDayElements)
+			{
+				calendarDayElement.Destroy();
+			}
+			_calendarDayElements.Clear();
+			
 			DestroyEvent?.Invoke(this);
 		}
 	}
