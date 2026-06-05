@@ -17,6 +17,17 @@ namespace TrainingApp.UI
 		[SerializeField]
 		private Button _mainMenuButton;
 
+		[Space(20)]
+		[SerializeField]
+		private ToggleButtonGroup _toggleButtonGroup;
+
+		public override void Open(PanelArgs args)
+		{
+			_toggleButtonGroup.Initialize(0);
+			
+			base.Open(args);
+		}
+
 		protected override void SubscribeOnEvents()
 		{
 			base.SubscribeOnEvents();

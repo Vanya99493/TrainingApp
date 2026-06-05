@@ -44,9 +44,9 @@ namespace TrainingApp.UI
 			_imageProvider = ServiceLocator.Instance.Get<ImageProvider>();
 		}
 
-		public override void Open()
+		public override void Open(PanelArgs args)
 		{
-			base.Open();
+			base.Open(args);
 
 			SetCalendar(DateTime.Today);
 		}

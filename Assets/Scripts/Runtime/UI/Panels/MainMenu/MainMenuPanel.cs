@@ -26,6 +26,8 @@ namespace TrainingApp.UI
 		
 		private AccountController _accountController;
 
+		private DayData _todayData;
+
 		public override void Initialize(UIManager uiManager)
 		{
 			base.Initialize(uiManager);
@@ -33,17 +35,17 @@ namespace TrainingApp.UI
 			_accountController = ServiceLocator.Instance.Get<AccountController>();
 		}
 
-		public override void Open()
+		public override void Open(PanelArgs args)
 		{
-			base.Open();
-
-			var todayData = _accountController.GetDayData(DateTime.Today);
+			_todayData = _accountController.GetDayData(DateTime.Today);
 			
 			_streakElement.Initialize(_accountController.GetStreak());
-			_teethBrushingElement.Initialize(todayData.TeethData);
-			_harmfulActivitiesElement.Initialize(todayData.HarmfulActivitiesData.IsDrinkingToday);
-			_todaysTrainingElement.Initialize(DayType.Today, DateTime.Today, _accountController.GetTodayTraining());
-			_tomorrowsTrainingElement.Initialize(DayType.Tomorrow, DateTime.Today.AddDays(1), _accountController.GetTomorrowsTraining());
+			_teethBrushingElement.Initialize(_todayData.TeethData);
+			_harmfulActivitiesElement.Initialize(_todayData.HarmfulActivitiesData.IsDrinkingToday);
+			_todaysTrainingElement.Initialize(DayType.Today, DateTime.Today, _todayData.IsTrainingComplete, _accountController.GetTodayTraining());
+			_tomorrowsTrainingElement.Initialize(DayType.Tomorrow, DateTime.Today.AddDays(1), false, _accountController.GetTomorrowsTraining());
+			
+			base.Open(args);
 		}
 
 		protected override void SubscribeOnEvents()
@@ -68,16 +70,19 @@ namespace TrainingApp.UI
 
 		private void OnTeethBrushingStateChangedEventHandler(TeethData teethData)
 		{
-			_accountController.GetDayData(DateTime.Today).TeethData = teethData;
+			_todayData.TeethData = teethData;
+			_accountController.AddOrUpdateDayData(_todayData);
 		}
 
 		private void OnDrinkingStateChangedEventHandler(HarmfulActivitiesData harmfulActivitiesData)
 		{
-			_accountController.GetDayData(DateTime.Today).HarmfulActivitiesData = harmfulActivitiesData;
+			_todayData.HarmfulActivitiesData = harmfulActivitiesData;
+			_accountController.AddOrUpdateDayData(_todayData);
 		}
 
 		private void OpenTrainingPanel(DateTime date)
 		{
+			_uiManager.CloseMainMenuPanel();
 			_uiManager.OpenTrainingPanel(_accountController.GetDayData(date));
 		}
 	}

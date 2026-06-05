@@ -13,7 +13,7 @@ namespace TrainingApp.UI
 			_uiManager = uiManager;
 		}
 		
-		public virtual void Open()
+		public virtual void Open(PanelArgs args)
 		{
 			if (!IsOpen)
 			{

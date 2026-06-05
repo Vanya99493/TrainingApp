@@ -4,17 +4,9 @@ using UnityEngine;
 
 namespace TrainingApp.UI
 {
-	public class SetsNumberControllerElement : MonoBehaviour
+	public class ToggleButtonGroup : MonoBehaviour
 	{
 		[SerializeField]
-		private ToggleButton _twoSetsToggleButton;
-
-		[SerializeField]
-		private ToggleButton _threeSetsToggleButton;
-
-		[SerializeField]
-		private ToggleButton _fourSetsToggleButton;
-
 		private List<ToggleButton> _toggleButtons = new();
 		private int _currentSelectedIndex;
 		
@@ -23,26 +15,21 @@ namespace TrainingApp.UI
 		public void Initialize(int activeToggleButtonIndex = -1)
 		{
 			_currentSelectedIndex = -1;
-
-			_toggleButtons = new()
-			{
-				_twoSetsToggleButton,
-				_threeSetsToggleButton,
-				_fourSetsToggleButton,
-			};
 			
 			int i = 0;
 			foreach (var toggleButton in _toggleButtons)
 			{
 				int index = i;
 				toggleButton.Initialize(false);
+				toggleButton.ResetStateChangeEvent();
 				toggleButton.ToggleButtonStateChangedEvent += isActive => OnToggleButtonStateChangedEventHandler(isActive, index);
 				i++;
 			}
 
 			if (activeToggleButtonIndex is >= 0 and < 3)
 			{
-				_toggleButtons[activeToggleButtonIndex].SetState(true);
+				_currentSelectedIndex = activeToggleButtonIndex;
+				_toggleButtons[_currentSelectedIndex].SetState(true);
 			}
 		}
 
@@ -63,7 +50,13 @@ namespace TrainingApp.UI
 					if (_currentSelectedIndex != index)
 					{
 						_currentSelectedIndex = index;
-						_toggleButtons[index].SetState(false);
+						for (int i = 0; i < _toggleButtons.Count; i++)
+						{
+							if (i != _currentSelectedIndex)
+							{
+								_toggleButtons[i].SetState(false);
+							}
+						}
 						SelectSetIndexEvent?.Invoke(_currentSelectedIndex);
 					}
 				}

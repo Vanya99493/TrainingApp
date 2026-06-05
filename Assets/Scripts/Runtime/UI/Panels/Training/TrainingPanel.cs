@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TMPro;
 using TrainingApp.AccountScripts;
 using TrainingApp.Models;
@@ -21,22 +22,29 @@ namespace TrainingApp.UI
 		private Button _backButton;
 
 		[SerializeField]
-		private SetsNumberControllerElement _setsNumberControllerElement;
+		private ToggleButtonGroup _setsNumberToggleButtonGroup;
 
 		[SerializeField]
 		private ToggleButton _markDoneToggleButton;
 
+		private AccountController _accountController;
 		private DayData _dayData;
-
 		private List<ExerciseElement> _exerciseElements = new();
 
-		public void Open(DayData dayData)
+		public override void Initialize(UIManager uiManager)
+		{
+			base.Initialize(uiManager);
+
+			_accountController = ServiceLocator.Instance.Get<AccountController>();
+		}
+
+		public override void Open(PanelArgs args)
 		{
 			ClearExerciseElements();
 			
-			base.Open();
+			base.Open(args);
 
-			_dayData = dayData;
+			_dayData = (args as DayDataPanelArgs).DayData;
 			TrainingData trainingData = ServiceLocator.Instance.Get<AccountController>().GetTraining(_dayData.ExerciseGuid);
 			
 			_nameText.text = trainingData.Name;
@@ -45,10 +53,22 @@ namespace TrainingApp.UI
 				_exerciseElements.Add(_exerciseElementFactory.InstantiateExerciseElement(exerciseData));
 			}
 
-			int setsElementIndex = SetsNumberToElementIndex(dayData.SetsCount);
-			_setsNumberControllerElement.Initialize(setsElementIndex);
-			_markDoneToggleButton.Initialize(dayData.IsTrainingComplete);
-			_markDoneToggleButton.SetInteractable(setsElementIndex != -1);
+			if (_dayData.DateTime.Date > DateTime.Today.Date)
+			{
+				_setsNumberToggleButtonGroup.Initialize();
+				_setsNumberToggleButtonGroup.gameObject.SetActive(false);
+				_markDoneToggleButton.Initialize(false);
+				_markDoneToggleButton.SetInteractable(false);
+			}
+			else
+			{
+				_setsNumberToggleButtonGroup.gameObject.SetActive(true);
+				int setsElementIndex = SetsNumberToElementIndex(_dayData.SetsCount);
+				setsElementIndex = _dayData.IsTrainingComplete ? setsElementIndex : -1;
+				_setsNumberToggleButtonGroup.Initialize(setsElementIndex);
+				_markDoneToggleButton.Initialize(_dayData.IsTrainingComplete);
+				_markDoneToggleButton.SetInteractable(setsElementIndex != -1);
+			}
 		}
 		
 		public override void Close()
@@ -64,7 +84,7 @@ namespace TrainingApp.UI
 			
 			_backButton.onClick.AddListener(OnBackButtonClickedEventHandler);
 			_markDoneToggleButton.ToggleButtonStateChangedEvent += OnMarkDoneButtonClickedEventHandler;
-			_setsNumberControllerElement.SelectSetIndexEvent += OnSelectSetIndexEventHandler;
+			_setsNumberToggleButtonGroup.SelectSetIndexEvent += OnSelectSetIndexEventHandler;
 		}
 
 		protected override void UnsubscribeFromEvents()
@@ -73,17 +93,18 @@ namespace TrainingApp.UI
 			
 			_backButton.onClick.RemoveListener(OnBackButtonClickedEventHandler);
 			_markDoneToggleButton.ToggleButtonStateChangedEvent -= OnMarkDoneButtonClickedEventHandler;
-			_setsNumberControllerElement.SelectSetIndexEvent -= OnSelectSetIndexEventHandler;
+			_setsNumberToggleButtonGroup.SelectSetIndexEvent -= OnSelectSetIndexEventHandler;
 		}
 
 		private void OnBackButtonClickedEventHandler()
 		{
-			_uiManager.CloseTrainingPanel();
+			_uiManager.OpenLastClosedPanelInstead(this, new DayDataPanelArgs(_dayData));
 		}
 
 		private void OnMarkDoneButtonClickedEventHandler(bool isActive)
 		{
 			_dayData.IsTrainingComplete = isActive;
+			_accountController.AddOrUpdateDayData(_dayData);
 		}
 
 		private void OnSelectSetIndexEventHandler(int index)
@@ -94,10 +115,15 @@ namespace TrainingApp.UI
 			{
 				_markDoneToggleButton.SetState(false);
 				_markDoneToggleButton.SetInteractable(false);
+
+				_dayData.SetsCount = -1;
+				_dayData.IsTrainingComplete = false;
+				_accountController.AddOrUpdateDayData(_dayData);
 			}
 			else
 			{
 				_dayData.SetsCount = setsNumber;
+				_markDoneToggleButton.SetState(false);
 				_markDoneToggleButton.SetInteractable(true);
 			}
 		}

@@ -35,6 +35,7 @@ namespace TrainingApp.UI
 
 		private Dictionary<Type, BasePanel> _panels = new();
 		private List<BasePanel> _currentActivePanels = new();
+		private BasePanel _lastClosedPanel;
 
 		public void Initialize()
 		{
@@ -61,7 +62,7 @@ namespace TrainingApp.UI
 			_editTrainingPanel.Initialize(this);
 			_assignTrainingPanel.Initialize(this);
 			
-			_navigationFooter.Open();
+			_navigationFooter.Open(new PanelArgs());
 		}
 
 		public void CloseAllPanels()
@@ -82,102 +83,123 @@ namespace TrainingApp.UI
 				currentActivePanel.Close();
 			}
 			_currentActivePanels.Clear();
+			_lastClosedPanel = null;
 		}
 
-		public void OpenInstead<T>(BasePanel currentActivePanel) where T : BasePanel
+		public void OpenInstead<T>(BasePanel currentActivePanel, PanelArgs panelArgs = null) where T : BasePanel
 		{
 			currentActivePanel.Close();
+			_lastClosedPanel = currentActivePanel;
 			if (_currentActivePanels.Contains(currentActivePanel))
 			{
 				_currentActivePanels.Remove(currentActivePanel);
 			}
 			var activePanel = _panels[typeof(T)];
-			activePanel.Open();
+			activePanel.Open(panelArgs);
 			_currentActivePanels.Add(activePanel);
+		}
+
+		public void OpenLastClosedPanelInstead(BasePanel currentActivePanel, PanelArgs panelArgs = null)
+		{
+			_lastClosedPanel.Open(panelArgs);
+			_currentActivePanels.Add(_lastClosedPanel);
+			currentActivePanel.Close();
+			_lastClosedPanel = currentActivePanel;
+			if (_currentActivePanels.Contains(currentActivePanel))
+			{
+				_currentActivePanels.Remove(currentActivePanel);
+			}
 		}
 		
 		public void OpenMainMenuPanel()
 		{
 			_currentActivePanels.Add(_mainMenuPanel);
-			_mainMenuPanel.Open();
+			_mainMenuPanel.Open(new PanelArgs());
 		}
 
 		public void OpenTrainingPlansPanel()
 		{
 			_currentActivePanels.Add(_trainingPlansPanel);
-			_trainingPlansPanel.Open();
+			_trainingPlansPanel.Open(new PanelArgs());
 		}
 
 		public void OpenCalendarPanel()
 		{
 			_currentActivePanels.Add(_calendarPanel);
-			_calendarPanel.Open();
+			_calendarPanel.Open(new PanelArgs());
 		}
 
 		public void OpenDayOverviewPanel(DayData selectedDayData)
 		{
 			_currentActivePanels.Add(_dayOverviewPanel);
-			_dayOverviewPanel.Open(selectedDayData);
+			_dayOverviewPanel.Open(new DayDataPanelArgs(selectedDayData));
 		}
 		
 		public void OpenTrainingPanel(DayData dayData)
 		{
 			_currentActivePanels.Add(_trainingPanel);
-			_trainingPanel.Open(dayData);
+			_trainingPanel.Open(new DayDataPanelArgs(dayData));
 		}
 		
 		public void OpenEditTrainingPanel(TrainingData trainingData)
 		{
 			_currentActivePanels.Add(_editTrainingPanel);
-			_editTrainingPanel.Open(trainingData);
+			_editTrainingPanel.Open(new TrainingDataPanelArgs(trainingData));
 		}
 
 		public void OpenAssignTrainingPanel(DayData dayData)
 		{
 			_currentActivePanels.Add(_assignTrainingPanel);
-			_assignTrainingPanel.Open(dayData);
+			_assignTrainingPanel.Open(new DayDataPanelArgs(dayData));
 		}
 		
 		public void CloseMainMenuPanel()
 		{
 			_currentActivePanels.Remove(_mainMenuPanel);
 			_mainMenuPanel.Close();
+			_lastClosedPanel = _mainMenuPanel;
 		}
 		
 		public void CloseTrainingPlansPanel()
 		{
 			_currentActivePanels.Remove(_trainingPlansPanel);
 			_trainingPlansPanel.Close();
+			_lastClosedPanel = _trainingPlansPanel;
 		}
 
 		public void CloseCalendarPanel()
 		{
 			_currentActivePanels.Remove(_calendarPanel);
 			_calendarPanel.Close();
+			_lastClosedPanel = _calendarPanel;
 		}
 		
 		public void CloseDayOverviewPanel()
 		{
 			_currentActivePanels.Remove(_dayOverviewPanel);
 			_dayOverviewPanel.Close();
+			_lastClosedPanel = _dayOverviewPanel;
 		}
 		
 		public void CloseTrainingPanel()
 		{
 			_currentActivePanels.Remove(_trainingPanel);
 			_trainingPanel.Close();
+			_lastClosedPanel = _trainingPanel;
 		}
 
 		public void CloseEditTrainingPanel()
 		{
 			_currentActivePanels.Remove(_editTrainingPanel);
 			_editTrainingPanel.Close();
+			_lastClosedPanel = _editTrainingPanel;
 		}
 		
 		public void CloseAssignTrainingPanel()
 		{
 			_currentActivePanels.Remove(_assignTrainingPanel);
 			_assignTrainingPanel.Close();
+			_lastClosedPanel = _assignTrainingPanel;
 		}
 	}
 }

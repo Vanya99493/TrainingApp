@@ -27,11 +27,11 @@ namespace TrainingApp.UI
 			_accountController = ServiceLocator.Instance.Get<AccountController>();
 		}
 
-		public override void Open()
+		public override void Open(PanelArgs args)
 		{
 			ClearTrainingPlanElements();
 			
-			base.Open();
+			base.Open(args);
 
 			var trainings = _accountController.ClientData.TrainingsDataContainer.Trainings;
 			foreach (var trainingData in trainings)

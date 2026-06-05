@@ -2,6 +2,7 @@
 using TMPro;
 using TrainingApp.Configs.UI;
 using TrainingApp.Constants;
+using TrainingApp.Extensions;
 using TrainingApp.Models;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,16 +16,13 @@ namespace TrainingApp.UI
 		
 		[SerializeField]
 		private TMP_Text _dayText;
-		
-		[SerializeField]
-		private Image _backgroundImage;
 
 		[SerializeField]
 		private Image _logoImage;
 
 		[Space(20)]
 		[SerializeField]
-		private ButtonPresetConfig _buttonPresetConfig;
+		private TrainingButtonPresetConfig _trainingButtonPresetConfig;
 
 		public event Action<CalendarDayElement> DestroyEvent;
 
@@ -58,22 +56,22 @@ namespace TrainingApp.UI
 
 			if (dayData.IsTrainingComplete)
 			{
-				backgroundColor = _buttonPresetConfig.CompletedTrainingColor;
+				backgroundColor = _trainingButtonPresetConfig.CompletedTrainingColor;
 			}
 			else if (dayData.IsTrainingHalfCompletedByActivities)
 			{
-				backgroundColor = _buttonPresetConfig.HalfCompletedTrainingColor;
+				backgroundColor = _trainingButtonPresetConfig.HalfCompletedTrainingColor;
 			}
 			else if (dayData.DateTime.Date >= DateTime.Today.Date || dayData.ExerciseGuid == UIConstants.REST_FROM_TRAINING || dayData.ExerciseGuid == "")
 			{
-				backgroundColor = _buttonPresetConfig.InactiveColor;
+				backgroundColor = _trainingButtonPresetConfig.InactiveColor;
 			}
 			else
 			{
-				backgroundColor = _buttonPresetConfig.MissedTrainingColor;
+				backgroundColor = _trainingButtonPresetConfig.MissedTrainingColor;
 			}
 
-			_backgroundImage.color = backgroundColor;
+			_dayButton.SetNormalColor(backgroundColor);
 		}
 	}
 }

@@ -67,8 +67,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 0
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: efda5f73d5a7ae141b03cd67cbd9b04b, type: 2}
+  m_sharedMaterial: {fileID: 8079349046125340755, guid: efda5f73d5a7ae141b03cd67cbd9b04b, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -198,7 +198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.8627451}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -228,7 +228,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -236,10 +236,10 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_NormalColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.8627451}
+    m_HighlightedColor: {r: 1, g: 0.8392157, b: 0.42745098, a: 0.8627451}
+    m_PressedColor: {r: 1, g: 0.8784314, b: 0.56078434, a: 0.8627451}
+    m_SelectedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.8627451}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -310,9 +310,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TrainingApp.UI.CalendarDayElement
   _dayButton: {fileID: 9062880081888002733}
   _dayText: {fileID: 2112950916943878295}
-  _backgroundImage: {fileID: 6937303573804812761}
   _logoImage: {fileID: 8374286921369185668}
-  _buttonPresetConfig: {fileID: 11400000, guid: ce3ac67bb803f2743a1dd768fccb372b, type: 2}
+  _trainingButtonPresetConfig: {fileID: 11400000, guid: 4b3e0cd7a52200249829a125d4f93017, type: 2}
 --- !u!1 &8519748841068833616
 GameObject:
   m_ObjectHideFlags: 0

@@ -24,44 +24,57 @@ namespace TrainingApp.UI
 		private TrainingElementFactory _trainingElementFactory;
 
 		private AccountController _accountController;
+		private ImageProvider _imageProvider;
 		private DayData _dayData;
 		private List<TrainingElement> _trainingElements = new();
 
-		public void Open(DayData dayData)
+		public override void Initialize(UIManager uiManager)
+		{
+			base.Initialize(uiManager);
+			
+			_accountController = ServiceLocator.Instance.Get<AccountController>();
+			_imageProvider = ServiceLocator.Instance.Get<ImageProvider>();
+		}
+
+		public override void Open(PanelArgs args)
 		{
 			ClearTrainingElements();
 			
-			_accountController = ServiceLocator.Instance.Get<AccountController>();
-			ImageProvider imageProvider = ServiceLocator.Instance.Get<ImageProvider>();
-
-			_dayData = dayData;
+			_dayData = (args as DayDataPanelArgs).DayData;
 			
 			if (_dayData.ExerciseGuid != "")
 			{
 				var restTrainingElement = _trainingElementFactory.InstantiateElement();
-				restTrainingElement.Initialize(new() { Guid = "", Name = "Rest", Exercises = new(), LogoSpriteIndex = -1 }, imageProvider.GetRestImage());
+				restTrainingElement.Initialize(new() { Guid = "", Name = "Rest", Exercises = new(), LogoSpriteIndex = -1 }, _imageProvider.GetRestImage());
 				restTrainingElement.SelectTrainingEvent += OnSelectNewTrainingEventHandler;
 				_trainingElements.Add(restTrainingElement);
+			}
+			else
+			{
+				_currentTrainingText.text = "Rest";
+				_currentTrainingLogoImage.sprite = _imageProvider.GetRestImage();
 			}
 
 			List<TrainingData> trainings = _accountController.ClientData.TrainingsDataContainer.Trainings;
 
 			foreach (var trainingData in trainings)
 			{
-				var trainingElement = _trainingElementFactory.InstantiateElement();
-				var trainingLogoSprite = imageProvider.GetImage(trainingData.LogoSpriteIndex);
-				trainingElement.Initialize(trainingData, trainingLogoSprite);
-				trainingElement.SelectTrainingEvent += OnSelectNewTrainingEventHandler;
-				_trainingElements.Add(trainingElement);
-
+				var trainingLogoSprite = _imageProvider.GetImage(trainingData.LogoSpriteIndex);
+				
 				if (_dayData.ExerciseGuid == trainingData.Guid)
 				{
 					_currentTrainingText.text = trainingData.Name;
 					_currentTrainingLogoImage.sprite = trainingLogoSprite;
+					continue;
 				}
+				
+				var trainingElement = _trainingElementFactory.InstantiateElement();
+				trainingElement.Initialize(trainingData, trainingLogoSprite);
+				trainingElement.SelectTrainingEvent += OnSelectNewTrainingEventHandler;
+				_trainingElements.Add(trainingElement);
 			}
 			
-			base.Open();
+			base.Open(args);
 		}
 
 		public override void Close()
@@ -97,6 +110,7 @@ namespace TrainingApp.UI
 		private void OnCloseButtonClickedEventHandler()
 		{
 			_uiManager.CloseAssignTrainingPanel();
+			_uiManager.OpenDayOverviewPanel(_dayData);
 		}
 
 		private void OnSelectNewTrainingEventHandler(string newTrainingGuid)
@@ -105,6 +119,7 @@ namespace TrainingApp.UI
 			_accountController.AddOrUpdateDayData(_dayData);
 			
 			_uiManager.CloseAssignTrainingPanel();
+			_uiManager.OpenDayOverviewPanel(_dayData);
 		}
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,10 +11,7 @@ namespace TrainingApp.UI
 		private Button _button;
 
 		[SerializeField]
-		private GameObject _affirmativeState;
-
-		[SerializeField]
-		private GameObject _negativeState;
+		private List<StatesVisualizationStrategy> _statesVisualizationStrategies = new();
 
 		private bool _isActive;
 
@@ -33,9 +31,12 @@ namespace TrainingApp.UI
 
 		public void Initialize(bool isActive)
 		{
-			ToggleButtonStateChangedEvent = null;
-			
 			SetState(isActive);
+		}
+
+		public void ResetStateChangeEvent()
+		{
+			ToggleButtonStateChangedEvent = null;
 		}
 
 		public void ChangeState()
@@ -47,15 +48,9 @@ namespace TrainingApp.UI
 		{
 			_isActive = isActive;
 			
-			if (isActive)
+			foreach (var stateVisualizationStrategy in _statesVisualizationStrategies)
 			{
-				_affirmativeState?.SetActive(true);
-				_negativeState?.SetActive(false);
-			}
-			else
-			{
-				_affirmativeState?.SetActive(false);
-				_negativeState?.SetActive(true);
+				stateVisualizationStrategy.SetState(isActive);
 			}
 			
 			ToggleButtonStateChangedEvent?.Invoke(_isActive);

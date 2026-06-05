@@ -2,8 +2,8 @@
 
 namespace TrainingApp.Configs.UI
 {
-	[CreateAssetMenu(fileName = "ButtonPresetConfig", menuName = "Scriptable Objects/UI/Button Preset Config")]
-	public class ButtonPresetConfig : ScriptableObject
+	[CreateAssetMenu(fileName = "TrainingButtonPresetConfig", menuName = "Scriptable Objects/UI/Training Button Preset Config")]
+	public class TrainingButtonPresetConfig : ScriptableObject
 	{
 		[field: SerializeField]
 		public Color InactiveColor { get; private set; }

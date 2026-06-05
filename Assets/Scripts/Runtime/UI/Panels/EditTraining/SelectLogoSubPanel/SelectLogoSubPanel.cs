@@ -19,7 +19,7 @@ namespace TrainingApp.UI
 
 		public void Open(Sprite[] logos, int currentLogoIndex)
 		{
-			base.Open();
+			base.Open(new PanelArgs());
 			
 			for (int i = 0; i < logos.Length; i++)
 			{

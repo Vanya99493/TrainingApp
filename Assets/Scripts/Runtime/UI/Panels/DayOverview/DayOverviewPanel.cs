@@ -40,17 +40,17 @@ namespace TrainingApp.UI
 			_accountController = ServiceLocator.Instance.Get<AccountController>();
 		}
 
-		public void Open(DayData dayData)
+		public override void Open(PanelArgs args)
 		{
-			base.Open();
-
-			_dayData = dayData;
+			_dayData = (args as DayDataPanelArgs).DayData;
 
 			_dayOfWeekText.text = DateTimeConstants.DayOfWeekStrings[_dayData.DateTime.DayOfWeek];
 
 			_teethBrushingElement.Initialize(_dayData.TeethData);
 			_harmfulActivitiesElement.Initialize(_dayData.HarmfulActivitiesData.IsDrinkingToday);
-			_todaysTrainingElement.Initialize(DayType.Today, _dayData.DateTime, _accountController.GetTraining(_dayData.ExerciseGuid));
+			_todaysTrainingElement.Initialize(DayType.Today, _dayData.DateTime, _dayData.IsTrainingComplete, _accountController.GetTraining(_dayData.ExerciseGuid));
+			
+			base.Open(args);
 		}
 
 		protected override void SubscribeOnEvents()
@@ -84,21 +84,25 @@ namespace TrainingApp.UI
 
 		private void OnChangeTrainingButtonClickedEventHandler()
 		{
+			_uiManager.CloseDayOverviewPanel();
 			_uiManager.OpenAssignTrainingPanel(_dayData);
 		}
 
 		private void OnTeethBrushingStateChangedEventHandler(TeethData teethData)
 		{
-			_accountController.GetDayData(DateTime.Today).TeethData = teethData;
+			_dayData.TeethData = teethData;
+			_accountController.AddOrUpdateDayData(_dayData);
 		}
 
 		private void OnDrinkingStateChangedEventHandler(HarmfulActivitiesData harmfulActivitiesData)
 		{
-			_accountController.GetDayData(DateTime.Today).HarmfulActivitiesData = harmfulActivitiesData;
+			_dayData.HarmfulActivitiesData = harmfulActivitiesData;
+			_accountController.AddOrUpdateDayData(_dayData);
 		}
 
 		private void OpenTrainingPanel(DateTime date)
 		{
+			_uiManager.CloseDayOverviewPanel();
 			_uiManager.OpenTrainingPanel(_accountController.GetDayData(date));
 		}
 	}

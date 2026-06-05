@@ -57,12 +57,12 @@ namespace TrainingApp.UI
 			_imageProvider = ServiceLocator.Instance.Get<ImageProvider>();
 		}
 
-		public void Open(TrainingData trainingData)
+		public override void Open(PanelArgs args)
 		{
-			base.Open();
+			base.Open(args);
 			
-			_trainingData = trainingData;
-			_logoIndex = trainingData.LogoSpriteIndex;
+			_trainingData = (args as TrainingDataPanelArgs).TrainingData;
+			_logoIndex = _trainingData.LogoSpriteIndex;
 			
 			_nameInputField.Initialize(_trainingData.Name);
 			_logoImage.sprite = _imageProvider.GetImage(_trainingData.LogoSpriteIndex);

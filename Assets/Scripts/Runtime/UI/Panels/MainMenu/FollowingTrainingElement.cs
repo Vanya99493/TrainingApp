@@ -1,6 +1,8 @@
 ﻿using System;
 using TMPro;
+using TrainingApp.Configs.UI;
 using TrainingApp.Enums;
+using TrainingApp.Extensions;
 using TrainingApp.ImageProviderScripts;
 using TrainingApp.Models;
 using TrainingApp.ServiceLocatorScripts;
@@ -21,44 +23,61 @@ namespace TrainingApp.UI
 		private TMP_Text _trainingName;
 
 		[SerializeField]
-		private Image _trainingImage;
+		private Image _trainingLogoImage;
 
 		[SerializeField]
-		private Button _openTrainingButton;
+		private Button _trainingButton;
 
+		[Header("Configs")]
 		[SerializeField]
-		private GameObject _dayWithoutTrainingView;
+		private TrainingButtonPresetConfig _trainingButtonPresetConfig;
 
-		public event Action<DateTime> OpenTrainingEvent;
-
+		private ImageProvider _imageProvider;
 		private DateTime _date;
 		
-		public void Initialize(DayType assignedDay, DateTime date, TrainingData trainingData)
+		public event Action<DateTime> OpenTrainingEvent;
+
+		public void Initialize(DayType assignedDay, DateTime date, bool isCompleted, TrainingData trainingData)
 		{
+			_imageProvider ??= ServiceLocator.Instance.Get<ImageProvider>();
+			
 			_date = date;
 			_assignedDayText.text = assignedDay.ToString();
 			_dateText.text = date.ToString("dd.MM");
 			
 			if (trainingData == null)
 			{
-				_dayWithoutTrainingView.SetActive(true);
-				return;
-			}
-			
-			_dayWithoutTrainingView.SetActive(false);
+				_trainingButton.interactable = false;
+				
+				_trainingName.text = "Rest";
+				_trainingLogoImage.sprite = _imageProvider.GetRestImage();
 
-			_trainingName.text = trainingData.Name;
-			_trainingImage.sprite = ServiceLocator.Instance.Get<ImageProvider>().GetImage(trainingData.LogoSpriteIndex);
+				_trainingButton.SetNormalColor(_trainingButtonPresetConfig.InactiveColor);
+			}
+			else
+			{
+				_trainingButton.interactable = true;
+				
+				_trainingName.text = trainingData.Name;
+				_trainingLogoImage.sprite = _imageProvider.GetImage(trainingData.LogoSpriteIndex);
+
+				Color trainingButtonColor = isCompleted
+					? _trainingButtonPresetConfig.CompletedTrainingColor
+					: date.Date < DateTime.Today.Date
+						? _trainingButtonPresetConfig.MissedTrainingColor
+						: _trainingButtonPresetConfig.InactiveColor;
+				_trainingButton.SetNormalColor(trainingButtonColor);
+			}
 		}
 
 		private void OnEnable()
 		{
-			_openTrainingButton.onClick.AddListener(OnOpenTrainingButtonClickedEventHandler);
+			_trainingButton.onClick.AddListener(OnOpenTrainingButtonClickedEventHandler);
 		}
 
 		private void OnDestroy()
 		{
-			_openTrainingButton.onClick.RemoveListener(OnOpenTrainingButtonClickedEventHandler);
+			_trainingButton.onClick.RemoveListener(OnOpenTrainingButtonClickedEventHandler);
 		}
 
 		private void OnOpenTrainingButtonClickedEventHandler()
