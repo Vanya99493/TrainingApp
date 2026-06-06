@@ -28,7 +28,13 @@ namespace TrainingApp.UI
 		private TrainingPanel _trainingPanel;
 
 		[SerializeField]
+		private SubTrainingPanel _subTrainingPanel;
+
+		[SerializeField]
 		private EditTrainingPanel _editTrainingPanel;
+
+		[SerializeField]
+		private EditSubTrainingPanel _editSubTrainingPanel;
 
 		[SerializeField]
 		private AssignTrainingPanel _assignTrainingPanel;
@@ -46,7 +52,9 @@ namespace TrainingApp.UI
 				{ typeof(DayOverviewPanel), _dayOverviewPanel },
 				{ typeof(TrainingPlansPanel), _trainingPlansPanel },
 				{ typeof(TrainingPanel), _trainingPanel },
+				{ typeof(SubTrainingPanel), _subTrainingPanel },
 				{ typeof(EditTrainingPanel), _editTrainingPanel },
+				{ typeof(EditSubTrainingPanel), _editSubTrainingPanel },
 				{ typeof(AssignTrainingPanel), _assignTrainingPanel },
 			};
 			
@@ -59,7 +67,9 @@ namespace TrainingApp.UI
 			_dayOverviewPanel.Initialize(this);
 			_trainingPlansPanel.Initialize(this);
 			_trainingPanel.Initialize(this);
+			_subTrainingPanel.Initialize(this);
 			_editTrainingPanel.Initialize(this);
+			_editSubTrainingPanel.Initialize(this);
 			_assignTrainingPanel.Initialize(this);
 			
 			_navigationFooter.Open(new PanelArgs());
@@ -72,7 +82,9 @@ namespace TrainingApp.UI
 			CloseDayOverviewPanel();
 			CloseTrainingPlansPanel();
 			CloseTrainingPanel();
+			CloseSubTrainingPanel();
 			CloseEditTrainingPanel();
+			CloseEditSubTrainingPanel();
 			CloseAssignTrainingPanel();
 		}
 
@@ -141,10 +153,22 @@ namespace TrainingApp.UI
 			_trainingPanel.Open(new DayDataPanelArgs(dayData));
 		}
 		
+		public void OpenSubTrainingPanel(DayData dayData)
+		{
+			_currentActivePanels.Add(_subTrainingPanel);
+			_subTrainingPanel.Open(new DayDataPanelArgs(dayData));
+		}
+		
 		public void OpenEditTrainingPanel(TrainingData trainingData)
 		{
 			_currentActivePanels.Add(_editTrainingPanel);
 			_editTrainingPanel.Open(new TrainingDataPanelArgs(trainingData));
+		}
+		
+		public void OpenEditSubTrainingPanel(SubTrainingData subTrainingData)
+		{
+			_currentActivePanels.Add(_editSubTrainingPanel);
+			_editSubTrainingPanel.Open(new SubTrainingDataPanelArgs(subTrainingData));
 		}
 
 		public void OpenAssignTrainingPanel(DayData dayData)
@@ -187,12 +211,26 @@ namespace TrainingApp.UI
 			_trainingPanel.Close();
 			_lastClosedPanel = _trainingPanel;
 		}
+		
+		public void CloseSubTrainingPanel()
+		{
+			_currentActivePanels.Remove(_subTrainingPanel);
+			_subTrainingPanel.Close();
+			_lastClosedPanel = _subTrainingPanel;
+		}
 
 		public void CloseEditTrainingPanel()
 		{
 			_currentActivePanels.Remove(_editTrainingPanel);
 			_editTrainingPanel.Close();
 			_lastClosedPanel = _editTrainingPanel;
+		}
+
+		public void CloseEditSubTrainingPanel()
+		{
+			_currentActivePanels.Remove(_editSubTrainingPanel);
+			_editSubTrainingPanel.Close();
+			_lastClosedPanel = _editSubTrainingPanel;
 		}
 		
 		public void CloseAssignTrainingPanel()

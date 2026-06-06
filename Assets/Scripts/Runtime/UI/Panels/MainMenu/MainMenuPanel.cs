@@ -13,6 +13,9 @@ namespace TrainingApp.UI
 		private StreakElement _streakElement;
 
 		[SerializeField]
+		private SubTrainingElement _subTrainingElement;
+
+		[SerializeField]
 		private TeethBrushingElement _teethBrushingElement;
 
 		[SerializeField]
@@ -40,9 +43,10 @@ namespace TrainingApp.UI
 			_todayData = _accountController.GetDayData(DateTime.Today);
 			
 			_streakElement.Initialize(_accountController.GetStreak());
+			_subTrainingElement.Initialize(_todayData.DateTime, _accountController.GetSubTraining(_todayData.SubTrainingGuid), _todayData.IsSubTrainingCompleted);
 			_teethBrushingElement.Initialize(_todayData.TeethData);
 			_harmfulActivitiesElement.Initialize(_todayData.HarmfulActivitiesData.IsDrinkingToday);
-			_todaysTrainingElement.Initialize(DayType.Today, DateTime.Today, _todayData.IsTrainingComplete, _accountController.GetTodayTraining());
+			_todaysTrainingElement.Initialize(DayType.Today, DateTime.Today, _todayData.IsTrainingCompleted, _accountController.GetTodayTraining());
 			_tomorrowsTrainingElement.Initialize(DayType.Tomorrow, DateTime.Today.AddDays(1), false, _accountController.GetTomorrowsTraining());
 			
 			base.Open(args);
@@ -52,6 +56,7 @@ namespace TrainingApp.UI
 		{
 			base.SubscribeOnEvents();
 
+			_subTrainingElement.OpenSubTrainingEvent += OnOpenSubTrainingEventHandler;
 			_teethBrushingElement.TeethBrushingStateChangedEvent += OnTeethBrushingStateChangedEventHandler;
 			_harmfulActivitiesElement.DrinkingStateChangedEvent += OnDrinkingStateChangedEventHandler;
 			_todaysTrainingElement.OpenTrainingEvent += OpenTrainingPanel;
@@ -62,10 +67,17 @@ namespace TrainingApp.UI
 		{
 			base.UnsubscribeFromEvents();
 			
+			_subTrainingElement.OpenSubTrainingEvent -= OnOpenSubTrainingEventHandler;
 			_teethBrushingElement.TeethBrushingStateChangedEvent -= OnTeethBrushingStateChangedEventHandler;
 			_harmfulActivitiesElement.DrinkingStateChangedEvent -= OnDrinkingStateChangedEventHandler;
 			_todaysTrainingElement.OpenTrainingEvent -= OpenTrainingPanel;
 			_tomorrowsTrainingElement.OpenTrainingEvent -= OpenTrainingPanel;
+		}
+		
+		private void OnOpenSubTrainingEventHandler(DateTime date)
+		{
+			_uiManager.CloseMainMenuPanel();
+			_uiManager.OpenSubTrainingPanel(_accountController.GetDayData(date));
 		}
 
 		private void OnTeethBrushingStateChangedEventHandler(TeethData teethData)

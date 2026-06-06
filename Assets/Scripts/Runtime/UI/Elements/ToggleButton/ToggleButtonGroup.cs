@@ -8,9 +8,10 @@ namespace TrainingApp.UI
 	{
 		[SerializeField]
 		private List<ToggleButton> _toggleButtons = new();
+		
 		private int _currentSelectedIndex;
 		
-		public event Action<int> SelectSetIndexEvent;
+		public event Action<int> SelectToggleButtonEvent;
 
 		public void Initialize(int activeToggleButtonIndex = -1)
 		{
@@ -26,11 +27,24 @@ namespace TrainingApp.UI
 				i++;
 			}
 
-			if (activeToggleButtonIndex is >= 0 and < 3)
+			if (activeToggleButtonIndex >= 0 && activeToggleButtonIndex < _toggleButtons.Count)
 			{
 				_currentSelectedIndex = activeToggleButtonIndex;
 				_toggleButtons[_currentSelectedIndex].SetState(true);
 			}
+		}
+
+		public void AddToggleButton(ToggleButton toggleButton)
+		{
+			toggleButton.Initialize(false);
+			toggleButton.ResetStateChangeEvent();
+			toggleButton.ToggleButtonStateChangedEvent += isActive => OnToggleButtonStateChangedEventHandler(isActive, _toggleButtons.Count);
+			_toggleButtons.Add(toggleButton);
+		}
+
+		public void ClearToggleButtons()
+		{
+			_toggleButtons.Clear();
 		}
 
 		private void OnToggleButtonStateChangedEventHandler(bool isActive, int index)
@@ -40,7 +54,7 @@ namespace TrainingApp.UI
 				if (isActive)
 				{
 					_currentSelectedIndex = index;
-					SelectSetIndexEvent?.Invoke(index);
+					SelectToggleButtonEvent?.Invoke(index);
 				}
 			}
 			else
@@ -57,7 +71,7 @@ namespace TrainingApp.UI
 								_toggleButtons[i].SetState(false);
 							}
 						}
-						SelectSetIndexEvent?.Invoke(_currentSelectedIndex);
+						SelectToggleButtonEvent?.Invoke(_currentSelectedIndex);
 					}
 				}
 				else
@@ -65,7 +79,7 @@ namespace TrainingApp.UI
 					if (_currentSelectedIndex == index)
 					{
 						_currentSelectedIndex = -1;
-						SelectSetIndexEvent?.Invoke(-1);
+						SelectToggleButtonEvent?.Invoke(-1);
 					}
 				}
 			}

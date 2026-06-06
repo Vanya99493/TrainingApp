@@ -51,6 +51,19 @@ namespace TrainingApp.AccountScripts
 			_clientDataProvider.SaveData(ClientData);
 		}
 
+		public SubTrainingData GetSubTraining(string guid) => ClientData.TrainingsDataContainer.GetSubTrainingData(guid);
+		
+		public void AddOrUpdateSubTrainingData(SubTrainingData subTrainingData)
+		{
+			if (subTrainingData.Guid == "")
+			{
+				subTrainingData.Guid = GuidGenerator.GenerateGuid();
+			}
+			
+			ClientData.TrainingsDataContainer.AddOrUpdateSubTrainingData(subTrainingData);
+			_clientDataProvider.SaveData(ClientData);
+		}
+
 		private TrainingData GetTrainingOfDay(DateTime dateTime)
 		{
 			string dayExerciseGuid = ClientData.DaysData.GetDayData(dateTime).ExerciseGuid;

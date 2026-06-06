@@ -9,11 +9,13 @@ namespace TrainingApp.Models
 		public DateTime DateTime;
 		public string Version = "";
 		public string ExerciseGuid = "";
+		public string SubTrainingGuid = "";
 		public TeethData TeethData;
 		public HarmfulActivitiesData HarmfulActivitiesData;
-		public bool IsTrainingComplete;
-		public bool IsTrainingHalfCompletedByActivities;
+		public bool IsTrainingCompleted;
 		public int SetsCount;
+		
+		public bool IsSubTrainingCompleted => SubTrainingGuid.Length > 0;
 
 		public DayData(string exerciseGuid = "")
 		{

@@ -19,9 +19,9 @@ namespace TrainingApp.UI
 		[SerializeField]
 		private Image _trainingPlanImage;
 
-		private TrainingData _trainingData;
+		private string _trainingGuid;
 
-		public event Action<TrainingData> OpenTrainingPlanEvent;
+		public event Action<string> OpenTrainingPlanEvent;
 		public event Action<TrainingPlanElement> DestroyEvent;
 
 		private void OnEnable()
@@ -34,12 +34,12 @@ namespace TrainingApp.UI
 			_openTrainingPlanButton.onClick.RemoveListener(OnOpenTrainingPlanButtonClickedEventHandler);
 		}
 
-		public void Initialize(TrainingData trainingData)
+		public void Initialize(string guid, string name, int logoIndex)
 		{
-			_trainingData = trainingData;
+			_trainingGuid = guid;
 
-			_trainingPlanNameText.text = _trainingData.Name;
-			_trainingPlanImage.sprite = ServiceLocator.Instance.Get<ImageProvider>().GetImage(_trainingData.LogoSpriteIndex);
+			_trainingPlanNameText.text = name;
+			_trainingPlanImage.sprite = ServiceLocator.Instance.Get<ImageProvider>().GetImage(logoIndex);
 		}
 		
 		public void Destroy()
@@ -49,7 +49,7 @@ namespace TrainingApp.UI
 
 		private void OnOpenTrainingPlanButtonClickedEventHandler()
 		{
-			OpenTrainingPlanEvent?.Invoke(_trainingData);
+			OpenTrainingPlanEvent?.Invoke(_trainingGuid);
 		}
 	}
 }

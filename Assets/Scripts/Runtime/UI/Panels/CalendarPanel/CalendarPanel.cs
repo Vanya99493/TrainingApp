@@ -94,7 +94,7 @@ namespace TrainingApp.UI
 			_monthText.text = ((Months)date.Month).ToString();
 
 			List<List<DateTime>> weeks = DivideByWeeks(date);
-			List<List<(DayData, Sprite)>> weeksData = ConvertToDayData(weeks);
+			List<List<CalendarDayInitializationData>> weeksData = ConvertToDayData(weeks);
 
 			int index = 0;
 			foreach (var weekData in weeksData)
@@ -151,26 +151,30 @@ namespace TrainingApp.UI
 			return result;
 		}
 
-		private List<List<(DayData, Sprite)>> ConvertToDayData(List<List<DateTime>> weeks)
+		private List<List<CalendarDayInitializationData>> ConvertToDayData(List<List<DateTime>> weeks)
 		{
-			List<List<(DayData, Sprite)>> weeksData = new();
+			List<List<CalendarDayInitializationData>> weeksData = new();
 
 			foreach (var week in weeks)
 			{
-				List<(DayData, Sprite)> weekData = new();
+				List<CalendarDayInitializationData> weekData = new();
 
 				foreach (var day in week)
 				{
 					DayData dayData = _accountController.GetDayData(day);
-					Sprite logoSprite = dayData.ExerciseGuid switch
+					Sprite trainingLogoSprite = dayData.ExerciseGuid switch
 					{
 						UIConstants.REST_FROM_TRAINING => _imageProvider.GetRestImage(),
 						"" => null,
-						_ => _imageProvider.GetImage(_accountController.GetTraining(dayData.ExerciseGuid)
-							.LogoSpriteIndex)
+						_ => _imageProvider.GetImage(_accountController.GetTraining(dayData.ExerciseGuid).LogoSpriteIndex)
+					};
+					Sprite subTrainingLogoSprite = dayData.SubTrainingGuid switch
+					{
+						"" => null,
+						_ => _imageProvider.GetImage(_accountController.GetSubTraining(dayData.SubTrainingGuid).LogoSpriteIndex)
 					};
 
-					weekData.Add((dayData, logoSprite));
+					weekData.Add(new CalendarDayInitializationData(dayData, trainingLogoSprite, subTrainingLogoSprite));
 				}
 
 				weeksData.Add(weekData);

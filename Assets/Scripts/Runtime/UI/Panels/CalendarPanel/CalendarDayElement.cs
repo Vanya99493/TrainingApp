@@ -18,7 +18,10 @@ namespace TrainingApp.UI
 		private TMP_Text _dayText;
 
 		[SerializeField]
-		private Image _logoImage;
+		private Image _trainingLogoImage;
+
+		[SerializeField]
+		private Image _subTrainingLogoImage;
 
 		[Space(20)]
 		[SerializeField]
@@ -26,17 +29,26 @@ namespace TrainingApp.UI
 
 		public event Action<CalendarDayElement> DestroyEvent;
 
-		public void Initialize(DayData dayData, Sprite exerciseLogo, Action<DayData> daySelectCallback = null)
+		public void Initialize(DayData dayData, Sprite trainingLogo, Sprite subTrainingLogo, Action<DayData> daySelectCallback = null)
 		{
 			_dayText.text = dayData.DateTime.Day.ToString();
 
-			if (exerciseLogo)
+			if (trainingLogo)
 			{
-				_logoImage.sprite = exerciseLogo;
+				_trainingLogoImage.sprite = trainingLogo;
 			}
 			else
 			{
-				_logoImage.gameObject.SetActive(false);
+				_trainingLogoImage.gameObject.SetActive(false);
+			}
+			
+			if (subTrainingLogo)
+			{
+				_subTrainingLogoImage.sprite = subTrainingLogo;
+			}
+			else
+			{
+				_subTrainingLogoImage.gameObject.SetActive(false);
 			}
 
 			SetBackgroundColor(dayData);
@@ -54,11 +66,11 @@ namespace TrainingApp.UI
 		{
 			Color backgroundColor;
 
-			if (dayData.IsTrainingComplete)
+			if (dayData.IsTrainingCompleted)
 			{
 				backgroundColor = _trainingButtonPresetConfig.CompletedTrainingColor;
 			}
-			else if (dayData.IsTrainingHalfCompletedByActivities)
+			else if (dayData.IsSubTrainingCompleted)
 			{
 				backgroundColor = _trainingButtonPresetConfig.HalfCompletedTrainingColor;
 			}

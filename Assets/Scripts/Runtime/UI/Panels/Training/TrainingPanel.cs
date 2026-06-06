@@ -64,9 +64,9 @@ namespace TrainingApp.UI
 			{
 				_setsNumberToggleButtonGroup.gameObject.SetActive(true);
 				int setsElementIndex = SetsNumberToElementIndex(_dayData.SetsCount);
-				setsElementIndex = _dayData.IsTrainingComplete ? setsElementIndex : -1;
+				setsElementIndex = _dayData.IsTrainingCompleted ? setsElementIndex : -1;
 				_setsNumberToggleButtonGroup.Initialize(setsElementIndex);
-				_markDoneToggleButton.Initialize(_dayData.IsTrainingComplete);
+				_markDoneToggleButton.Initialize(_dayData.IsTrainingCompleted);
 				_markDoneToggleButton.SetInteractable(setsElementIndex != -1);
 			}
 		}
@@ -84,7 +84,7 @@ namespace TrainingApp.UI
 			
 			_backButton.onClick.AddListener(OnBackButtonClickedEventHandler);
 			_markDoneToggleButton.ToggleButtonStateChangedEvent += OnMarkDoneButtonClickedEventHandler;
-			_setsNumberToggleButtonGroup.SelectSetIndexEvent += OnSelectSetIndexEventHandler;
+			_setsNumberToggleButtonGroup.SelectToggleButtonEvent += OnSelectToggleButtonEventHandler;
 		}
 
 		protected override void UnsubscribeFromEvents()
@@ -93,7 +93,7 @@ namespace TrainingApp.UI
 			
 			_backButton.onClick.RemoveListener(OnBackButtonClickedEventHandler);
 			_markDoneToggleButton.ToggleButtonStateChangedEvent -= OnMarkDoneButtonClickedEventHandler;
-			_setsNumberToggleButtonGroup.SelectSetIndexEvent -= OnSelectSetIndexEventHandler;
+			_setsNumberToggleButtonGroup.SelectToggleButtonEvent -= OnSelectToggleButtonEventHandler;
 		}
 
 		private void OnBackButtonClickedEventHandler()
@@ -103,11 +103,11 @@ namespace TrainingApp.UI
 
 		private void OnMarkDoneButtonClickedEventHandler(bool isActive)
 		{
-			_dayData.IsTrainingComplete = isActive;
+			_dayData.IsTrainingCompleted = isActive;
 			_accountController.AddOrUpdateDayData(_dayData);
 		}
 
-		private void OnSelectSetIndexEventHandler(int index)
+		private void OnSelectToggleButtonEventHandler(int index)
 		{
 			int setsNumber = ElementIndexToSetsNumber(index);
 
@@ -117,7 +117,7 @@ namespace TrainingApp.UI
 				_markDoneToggleButton.SetInteractable(false);
 
 				_dayData.SetsCount = -1;
-				_dayData.IsTrainingComplete = false;
+				_dayData.IsTrainingCompleted = false;
 				_accountController.AddOrUpdateDayData(_dayData);
 			}
 			else

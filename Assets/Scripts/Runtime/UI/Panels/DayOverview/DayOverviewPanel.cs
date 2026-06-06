@@ -30,6 +30,9 @@ namespace TrainingApp.UI
 		[SerializeField]
 		private HarmfulActivitiesElement _harmfulActivitiesElement;
 
+		[SerializeField]
+		private SubTrainingElement _subTrainingElement;
+
 		private AccountController _accountController;
 		private DayData _dayData;
 
@@ -48,7 +51,8 @@ namespace TrainingApp.UI
 
 			_teethBrushingElement.Initialize(_dayData.TeethData);
 			_harmfulActivitiesElement.Initialize(_dayData.HarmfulActivitiesData.IsDrinkingToday);
-			_todaysTrainingElement.Initialize(DayType.Today, _dayData.DateTime, _dayData.IsTrainingComplete, _accountController.GetTraining(_dayData.ExerciseGuid));
+			_todaysTrainingElement.Initialize(DayType.Today, _dayData.DateTime, _dayData.IsTrainingCompleted, _accountController.GetTraining(_dayData.ExerciseGuid));
+			_subTrainingElement.Initialize(_dayData.DateTime, _accountController.GetSubTraining(_dayData.SubTrainingGuid), _dayData.IsSubTrainingCompleted);
 			
 			base.Open(args);
 		}
@@ -63,6 +67,7 @@ namespace TrainingApp.UI
 			_teethBrushingElement.TeethBrushingStateChangedEvent += OnTeethBrushingStateChangedEventHandler;
 			_harmfulActivitiesElement.DrinkingStateChangedEvent += OnDrinkingStateChangedEventHandler;
 			_todaysTrainingElement.OpenTrainingEvent += OpenTrainingPanel;
+			_subTrainingElement.OpenSubTrainingEvent += OnOpenSubTrainingEventHandler;
 		}
 
 		protected override void UnsubscribeFromEvents()
@@ -75,6 +80,7 @@ namespace TrainingApp.UI
 			_teethBrushingElement.TeethBrushingStateChangedEvent -= OnTeethBrushingStateChangedEventHandler;
 			_harmfulActivitiesElement.DrinkingStateChangedEvent -= OnDrinkingStateChangedEventHandler;
 			_todaysTrainingElement.OpenTrainingEvent -= OpenTrainingPanel;
+			_subTrainingElement.OpenSubTrainingEvent -= OnOpenSubTrainingEventHandler;
 		}
 
 		private void OnCloseButtonClickedEventHandler()
@@ -104,6 +110,12 @@ namespace TrainingApp.UI
 		{
 			_uiManager.CloseDayOverviewPanel();
 			_uiManager.OpenTrainingPanel(_accountController.GetDayData(date));
+		}
+
+		private void OnOpenSubTrainingEventHandler(DateTime date)
+		{
+			_uiManager.CloseDayOverviewPanel();
+			_uiManager.OpenSubTrainingPanel(_accountController.GetDayData(date));
 		}
 	}
 }

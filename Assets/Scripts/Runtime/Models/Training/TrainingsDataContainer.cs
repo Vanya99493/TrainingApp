@@ -8,6 +8,7 @@ namespace TrainingApp.Models
 	public class TrainingsDataContainer
 	{
 		public List<TrainingData> Trainings = new();
+		public List<SubTrainingData> SubTrainings = new();
 
 		public TrainingData GetTrainingData(string guid)
 		{
@@ -25,6 +26,25 @@ namespace TrainingApp.Models
 			else
 			{
 				Trainings.Add(trainingData);
+			}
+		}
+
+		public SubTrainingData GetSubTrainingData(string guid)
+		{
+			return SubTrainings.FirstOrDefault(x => x.Guid == guid);
+		}
+
+		public void AddOrUpdateSubTrainingData(SubTrainingData subTrainingData)
+		{
+			int index = SubTrainings.FindIndex(x => x.Guid == subTrainingData.Guid);
+
+			if (index != -1)
+			{
+				SubTrainings[index] = subTrainingData;
+			}
+			else
+			{
+				SubTrainings.Add(subTrainingData);
 			}
 		}
 	}
