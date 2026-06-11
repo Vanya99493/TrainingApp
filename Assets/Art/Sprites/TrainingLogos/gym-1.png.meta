@@ -1,19 +1,10 @@
 fileFormatVersion: 2
-guid: df835c00b3c0e3f428dddf5b396036df
+guid: 76795e92558b6fc45a7a55c406670c66
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -573826986974114652
-    second: gym-equipment_0
-  - first:
-      213: 4315102337722672191
-    second: gym-equipment_1
-  - first:
-      213: -1451805636157267607
-    second: gym-equipment_2
-  - first:
-      213: -2981980055005276475
-    second: gym-equipment_3
+      213: -2670421478011259536
+    second: gym-1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -105,17 +96,30 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: gym-equipment_0
+      name: gym-1_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 5
-        width: 388
-        height: 502
+        x: 1
+        y: 51
+        width: 508
+        height: 407
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,74 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4ac00e6456b5908f0800000000000000
-      internalID: -573826986974114652
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: gym-equipment_1
-      rect:
-        serializedVersion: 2
-        x: 187
-        y: 5
-        width: 271
-        height: 189
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: f34ea69b6b252eb30800000000000000
-      internalID: 4315102337722672191
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: gym-equipment_2
-      rect:
-        serializedVersion: 2
-        x: 469
-        y: 41
-        width: 19
-        height: 119
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 961afe547762adbe0800000000000000
-      internalID: -1451805636157267607
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: gym-equipment_3
-      rect:
-        serializedVersion: 2
-        x: 499
-        y: 74
-        width: 13
-        height: 52
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5c65c1e60f0ed96d0800000000000000
-      internalID: -2981980055005276475
+      spriteID: 075b09270d1c0fad0800000000000000
+      internalID: -2670421478011259536
       vertices: []
       indices: 
       edges: []
@@ -210,10 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      gym-equipment_0: -573826986974114652
-      gym-equipment_1: 4315102337722672191
-      gym-equipment_2: -1451805636157267607
-      gym-equipment_3: -2981980055005276475
+      gym-1_0: -2670421478011259536
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

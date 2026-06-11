@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 05469c219a933a54fac16b3294b587ea
+guid: c34bc11713a3c8a4f9ad9cf1471e37ed
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4832987138727584783
-    second: exercise (1)_0
+      213: -8424995676385301148
+    second: gym-2_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,17 +96,30 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: exercise (1)_0
+      name: gym-2_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 118
-        width: 512
-        height: 276
+        x: 6
+        y: 20
+        width: 498
+        height: 472
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f04a3e74238321340800000000000000
-      internalID: 4832987138727584783
+      spriteID: 46d2ad2e117641b80800000000000000
+      internalID: -8424995676385301148
       vertices: []
       indices: 
       edges: []
@@ -135,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      exercise (1)_0: 4832987138727584783
+      gym-2_0: -8424995676385301148
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

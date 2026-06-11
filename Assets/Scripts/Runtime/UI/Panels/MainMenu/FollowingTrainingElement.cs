@@ -1,6 +1,7 @@
 ﻿using System;
 using TMPro;
 using TrainingApp.Configs.UI;
+using TrainingApp.Constants;
 using TrainingApp.Enums;
 using TrainingApp.Extensions;
 using TrainingApp.ImageProviderScripts;
@@ -60,6 +61,7 @@ namespace TrainingApp.UI
 				
 				_trainingName.text = trainingData.Name;
 				_trainingLogoImage.sprite = _imageProvider.GetImage(trainingData.LogoSpriteIndex);
+				_trainingLogoImage.color = CollectionsContainer.RGBColors[(ColorType)trainingData.LogoColorIndex];
 
 				Color trainingButtonColor = isCompleted
 					? _trainingButtonPresetConfig.CompletedTrainingColor

@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using TrainingApp.Constants;
+using TrainingApp.Enums;
+using TrainingApp.ImageProviderScripts;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,29 +17,48 @@ namespace TrainingApp.UI
 		[SerializeField]
 		private Button _closeButton;
 
+		[SerializeField]
+		private Image _currentLogoImage;
+
+		[SerializeField]
+		private ToggleButtonGroup _logoNavigationToggleButtonGroup;
+		
+		[SerializeField]
+		private Button _logosButton;
+
+		[SerializeField]
+		private Button _colorsButton;
+
+		[SerializeField]
+		private int _logoElementsInRow = 4;
+
+		private ImageProvider _imageProvider;
 		private List<LogoButtonElement> _logoButtonElements = new();
+		private int _logoIndex;
+		private int _logoColorIndex;
 
-		public event Action<int> SelectLogoEvent;
+		public event Action<int, int> SelectLogoEvent;
 
-		public void Open(Sprite[] logos, int currentLogoIndex)
+		public void Open(ImageProvider imageProvider, int currentLogoIndex, int logoColorIndex)
 		{
-			base.Open(new PanelArgs());
+			_imageProvider = imageProvider;
+			_logoIndex = currentLogoIndex;
+			_logoColorIndex = logoColorIndex;
 			
-			for (int i = 0; i < logos.Length; i++)
-			{
-				int logoIndex = i;
-				var logoButton = _logoButtonElementFactory.InstantiateElement();
-				logoButton.Initialize(logos[i], logoIndex, i == currentLogoIndex);
-				logoButton.SelectLogoEvent += OnLogoSelectEventHandler;
-				_logoButtonElements.Add(logoButton);
-			}
+			_logoButtonElementFactory.Initialize(_logoElementsInRow);
+			_logoNavigationToggleButtonGroup.Initialize(0);
+
+			UpdateLogoView();
+			InitLogos();
+			
+			base.Open(new PanelArgs());
 		}
 
 		public override void Close()
 		{
 			base.Close();
 
-			ClearLogos();
+			ClearLogoElements();
 		}
 
 		protected override void SubscribeOnEvents()
@@ -43,6 +66,8 @@ namespace TrainingApp.UI
 			base.SubscribeOnEvents();
 			
 			_closeButton.onClick.AddListener(OnCloseButtonClickedEventHandler);
+			_logosButton.onClick.AddListener(OnLogosButtonClickedEventHandler);
+			_colorsButton.onClick.AddListener(OnColorsButtonClickedEventHandler);
 		}
 
 		protected override void UnsubscribeFromEvents()
@@ -50,6 +75,8 @@ namespace TrainingApp.UI
 			base.UnsubscribeFromEvents();
 			
 			_closeButton.onClick.RemoveListener(OnCloseButtonClickedEventHandler);
+			_logosButton.onClick.RemoveListener(OnLogosButtonClickedEventHandler);
+			_colorsButton.onClick.RemoveListener(OnColorsButtonClickedEventHandler);
 		}
 
 		private void OnCloseButtonClickedEventHandler()
@@ -57,13 +84,69 @@ namespace TrainingApp.UI
 			Close();
 		}
 
-		private void OnLogoSelectEventHandler(int logoIndex)
+		private void OnLogosButtonClickedEventHandler()
 		{
-			SelectLogoEvent?.Invoke(logoIndex);
-			Close();
+			ClearLogoElements();
+			InitLogos();
+		}
+		
+		private void OnColorsButtonClickedEventHandler()
+		{
+			ClearLogoElements();
+			InitColors();
+		}
+			
+		private void InitLogos()
+		{
+			Sprite[] logos = _imageProvider.GetImages();
+			
+			for (int i = 0; i < logos.Length; i++)
+			{
+				int logoIndex = i;
+				var logoButton = _logoButtonElementFactory.InstantiateElement();
+				logoButton.Initialize(logos[i], CollectionsContainer.RGBColors[(ColorType)_logoColorIndex], logoIndex, i == _logoIndex);
+				logoButton.SelectLogoEvent += OnLogoSelectEventHandler;
+				_logoButtonElements.Add(logoButton);
+			}
 		}
 
-		private void ClearLogos()
+		private void InitColors()
+		{
+			Color[] colors = CollectionsContainer.RGBColors.Select(x => x.Value).ToArray();
+
+			for (int i = 0; i < colors.Length; i++)
+			{
+				int colorIndex = i;
+				var logoButton = _logoButtonElementFactory.InstantiateElement();
+				logoButton.Initialize(null, colors[colorIndex], colorIndex, i == _logoColorIndex);
+				logoButton.SelectLogoEvent += OnLogoColorSelectEventHandler;
+				_logoButtonElements.Add(logoButton);
+			}
+		}
+		
+		private void OnLogoSelectEventHandler(int logoIndex)
+		{
+			_logoIndex = logoIndex;
+			
+			UpdateLogoView();
+			SelectLogoEvent?.Invoke(_logoIndex, _logoColorIndex);
+		}
+
+		private void OnLogoColorSelectEventHandler(int colorIndex)
+		{
+			_logoColorIndex = colorIndex;
+			
+			UpdateLogoView();
+			SelectLogoEvent?.Invoke(_logoIndex, _logoColorIndex);
+		}
+
+		private void UpdateLogoView()
+		{
+			_currentLogoImage.sprite = _imageProvider.GetImage(_logoIndex);
+			_currentLogoImage.color = CollectionsContainer.RGBColors[(ColorType)_logoColorIndex];
+		}
+
+		private void ClearLogoElements()
 		{
 			foreach (var logoButtonElement in _logoButtonElements)
 			{

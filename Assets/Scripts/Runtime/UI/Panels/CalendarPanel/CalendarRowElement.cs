@@ -27,7 +27,7 @@ namespace TrainingApp.UI
 			foreach (var day in days)
 			{
 				var calendarDayElement = _calendarDayElementFactory.InstantiateElement();
-				calendarDayElement.Initialize(day.DayData, day.TrainingLogo, day.SubTrainingLogo, daySelectCallback);
+				calendarDayElement.Initialize(day.DayData, day.TrainingLogo, day.TrainingLogoColor, day.SubTrainingLogo, day.SubTrainingLogoColor, daySelectCallback);
 				_calendarDayElements.Add(calendarDayElement);
 			}
 			

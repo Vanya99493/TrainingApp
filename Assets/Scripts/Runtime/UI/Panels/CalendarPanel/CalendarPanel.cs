@@ -162,19 +162,40 @@ namespace TrainingApp.UI
 				foreach (var day in week)
 				{
 					DayData dayData = _accountController.GetDayData(day);
-					Sprite trainingLogoSprite = dayData.ExerciseGuid switch
-					{
-						UIConstants.REST_FROM_TRAINING => _imageProvider.GetRestImage(),
-						"" => null,
-						_ => _imageProvider.GetImage(_accountController.GetTraining(dayData.ExerciseGuid).LogoSpriteIndex)
-					};
-					Sprite subTrainingLogoSprite = dayData.SubTrainingGuid switch
-					{
-						"" => null,
-						_ => _imageProvider.GetImage(_accountController.GetSubTraining(dayData.SubTrainingGuid).LogoSpriteIndex)
-					};
+					Sprite trainingLogoSprite;
+					Color trainingLogoColor = Color.white;
+					Sprite subTrainingLogoSprite;
+					Color subTrainingLogoColor = Color.white;
 
-					weekData.Add(new CalendarDayInitializationData(dayData, trainingLogoSprite, subTrainingLogoSprite));
+					switch (dayData.ExerciseGuid)
+					{
+						case UIConstants.REST_FROM_TRAINING:
+							trainingLogoSprite = _imageProvider.GetRestImage();
+							
+							break;
+						case "":
+							trainingLogoSprite = null;
+							break;
+						default:
+							TrainingData trainingData = _accountController.GetTraining(dayData.ExerciseGuid);
+							trainingLogoSprite = _imageProvider.GetImage(trainingData.LogoSpriteIndex);
+							trainingLogoColor = CollectionsContainer.RGBColors[(ColorType)trainingData.LogoColorIndex];
+							break;
+					}
+					
+					switch (dayData.SubTrainingGuid)
+					{
+						case "":
+							subTrainingLogoSprite = null;
+							break;
+						default:
+							SubTrainingData subTrainingData = _accountController.GetSubTraining(dayData.SubTrainingGuid);
+							subTrainingLogoSprite = _imageProvider.GetImage(subTrainingData.LogoSpriteIndex);
+							subTrainingLogoColor = CollectionsContainer.RGBColors[(ColorType)subTrainingData.LogoColorIndex];
+							break;
+					}
+
+					weekData.Add(new CalendarDayInitializationData(dayData, trainingLogoSprite, trainingLogoColor, subTrainingLogoSprite, subTrainingLogoColor));
 				}
 
 				weeksData.Add(weekData);

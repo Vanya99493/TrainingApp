@@ -1,5 +1,7 @@
 ﻿using TMPro;
 using TrainingApp.AccountScripts;
+using TrainingApp.Constants;
+using TrainingApp.Enums;
 using TrainingApp.ImageProviderScripts;
 using TrainingApp.Models;
 using TrainingApp.ServiceLocatorScripts;
@@ -37,6 +39,7 @@ namespace TrainingApp.UI
 		
 		private SubTrainingData _subTrainingData;
 		private int _logoIndex;
+		private int _logoColorIndex;
 		
 		public override void Initialize(UIManager uiManager)
 		{
@@ -52,9 +55,11 @@ namespace TrainingApp.UI
 			
 			_subTrainingData = (args as SubTrainingDataPanelArgs).SubTrainingData;
 			_logoIndex = _subTrainingData.LogoSpriteIndex;
+			_logoColorIndex = _subTrainingData.LogoColorIndex;
 			
 			_nameInputField.Initialize(_subTrainingData.Name);
 			_logoImage.sprite = _imageProvider.GetImage(_logoIndex);
+			_logoImage.color = CollectionsContainer.RGBColors[(ColorType)_logoColorIndex];
 			_descriptionInputField.text = _subTrainingData.Description;
 		}
 		
@@ -87,13 +92,15 @@ namespace TrainingApp.UI
 
 		private void OnSelectLogoButtonClickedEventHandler()
 		{
-			_selectLogoSubPanel.Open(_imageProvider.GetImages(), _logoIndex);
+			_selectLogoSubPanel.Open(_imageProvider, _logoIndex, _logoColorIndex);
 		}
 
-		private void OnSelectLogoEventHandler(int logoIndex)
+		private void OnSelectLogoEventHandler(int logoIndex, int colorIndex)
 		{
 			_logoIndex = logoIndex;
+			_logoColorIndex = colorIndex;
 			_logoImage.sprite = _imageProvider.GetImage(_logoIndex);
+			_logoImage.color = CollectionsContainer.RGBColors[(ColorType)_logoColorIndex];
 		}
 
 		private void OnSaveButtonClickedEventHandler()
@@ -102,6 +109,7 @@ namespace TrainingApp.UI
 			{
 				_subTrainingData.Name = _nameInputField.Text;
 				_subTrainingData.LogoSpriteIndex = _logoIndex;
+				_subTrainingData.LogoColorIndex = _logoColorIndex;
 				_subTrainingData.Description = _descriptionInputField.text;
 				
 				_accountController.AddOrUpdateSubTrainingData(_subTrainingData);

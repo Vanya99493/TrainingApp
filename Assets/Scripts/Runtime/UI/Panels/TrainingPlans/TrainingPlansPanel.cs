@@ -104,7 +104,7 @@ namespace TrainingApp.UI
 			foreach (var trainingData in trainings)
 			{
 				var trainingPlanElement = _trainingPlanFactory.InstantiateElement();
-				trainingPlanElement.Initialize(trainingData.Guid, trainingData.Name, trainingData.LogoSpriteIndex);
+				trainingPlanElement.Initialize(trainingData.Guid, trainingData.Name, trainingData.LogoSpriteIndex, trainingData.LogoColorIndex);
 				trainingPlanElement.OpenTrainingPlanEvent += OnOpenTrainingPlanEventHandler;
 				_trainingPlanElements.Add(trainingPlanElement);
 			}
@@ -118,7 +118,7 @@ namespace TrainingApp.UI
 			foreach (var subTrainingData in subTrainings)
 			{
 				var trainingPlanElement = _trainingPlanFactory.InstantiateElement();
-				trainingPlanElement.Initialize(subTrainingData.Guid, subTrainingData.Name, subTrainingData.LogoSpriteIndex);
+				trainingPlanElement.Initialize(subTrainingData.Guid, subTrainingData.Name, subTrainingData.LogoSpriteIndex, subTrainingData.LogoColorIndex);
 				trainingPlanElement.OpenTrainingPlanEvent += OnOpenSubTrainingPlanEventHandler;
 				_trainingPlanElements.Add(trainingPlanElement);
 			}

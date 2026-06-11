@@ -29,13 +29,14 @@ namespace TrainingApp.UI
 
 		public event Action<CalendarDayElement> DestroyEvent;
 
-		public void Initialize(DayData dayData, Sprite trainingLogo, Sprite subTrainingLogo, Action<DayData> daySelectCallback = null)
+		public void Initialize(DayData dayData, Sprite trainingLogo, Color trainingLogoColor, Sprite subTrainingLogo, Color subTrainingLogoColor, Action<DayData> daySelectCallback = null)
 		{
 			_dayText.text = dayData.DateTime.Day.ToString();
 
 			if (trainingLogo)
 			{
 				_trainingLogoImage.sprite = trainingLogo;
+				_trainingLogoImage.color = trainingLogoColor;
 			}
 			else
 			{
@@ -45,6 +46,7 @@ namespace TrainingApp.UI
 			if (subTrainingLogo)
 			{
 				_subTrainingLogoImage.sprite = subTrainingLogo;
+				_subTrainingLogoImage.color = subTrainingLogoColor;
 			}
 			else
 			{

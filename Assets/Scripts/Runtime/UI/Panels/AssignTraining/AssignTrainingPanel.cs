@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using TMPro;
 using TrainingApp.AccountScripts;
+using TrainingApp.Constants;
+using TrainingApp.Enums;
 using TrainingApp.ImageProviderScripts;
 using TrainingApp.Models;
 using TrainingApp.ServiceLocatorScripts;
@@ -45,7 +47,7 @@ namespace TrainingApp.UI
 			if (_dayData.ExerciseGuid != "")
 			{
 				var restTrainingElement = _trainingElementFactory.InstantiateElement();
-				restTrainingElement.Initialize(new() { Guid = "", Name = "Rest", Exercises = new(), LogoSpriteIndex = -1 }, _imageProvider.GetRestImage());
+				restTrainingElement.Initialize(new() { Guid = "", Name = "Rest", Exercises = new(), LogoSpriteIndex = -1 }, _imageProvider.GetRestImage(), Color.white);
 				restTrainingElement.SelectTrainingEvent += OnSelectNewTrainingEventHandler;
 				_trainingElements.Add(restTrainingElement);
 			}
@@ -53,23 +55,26 @@ namespace TrainingApp.UI
 			{
 				_currentTrainingText.text = "Rest";
 				_currentTrainingLogoImage.sprite = _imageProvider.GetRestImage();
+				_currentTrainingLogoImage.color = Color.white;
 			}
 
 			List<TrainingData> trainings = _accountController.ClientData.TrainingsDataContainer.Trainings;
 
 			foreach (var trainingData in trainings)
 			{
-				var trainingLogoSprite = _imageProvider.GetImage(trainingData.LogoSpriteIndex);
+				Sprite trainingLogoSprite = _imageProvider.GetImage(trainingData.LogoSpriteIndex);
+				Color trainingLogoColor = CollectionsContainer.RGBColors[(ColorType)trainingData.LogoColorIndex];
 				
 				if (_dayData.ExerciseGuid == trainingData.Guid)
 				{
 					_currentTrainingText.text = trainingData.Name;
 					_currentTrainingLogoImage.sprite = trainingLogoSprite;
+					_currentTrainingLogoImage.color = trainingLogoColor;
 					continue;
 				}
 				
 				var trainingElement = _trainingElementFactory.InstantiateElement();
-				trainingElement.Initialize(trainingData, trainingLogoSprite);
+				trainingElement.Initialize(trainingData, trainingLogoSprite, trainingLogoColor);
 				trainingElement.SelectTrainingEvent += OnSelectNewTrainingEventHandler;
 				_trainingElements.Add(trainingElement);
 			}

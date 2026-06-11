@@ -32,12 +32,13 @@ namespace TrainingApp.UI
 			_trainingButton.onClick.RemoveListener(OnTrainingButtonClickedEventHandler);
 		}
 
-		public void Initialize(TrainingData trainingData, Sprite logo)
+		public void Initialize(TrainingData trainingData, Sprite logo, Color logoColor)
 		{
 			_trainingGuid = trainingData.Guid;
 
 			_trainingName.text = trainingData.Name;
 			_trainingLogoImage.sprite = logo;
+			_trainingLogoImage.color = logoColor;
 		}
 		
 		public void Destroy()

@@ -8,6 +8,7 @@ namespace TrainingApp.Models
 		public string Guid = "";
 		public string Name = "";
 		public int LogoSpriteIndex;
+		public int LogoColorIndex;
 		public string Description = "";
 		
 		public bool Equals(SubTrainingData other)

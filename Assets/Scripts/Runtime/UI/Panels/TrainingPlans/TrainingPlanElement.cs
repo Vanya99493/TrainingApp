@@ -1,5 +1,7 @@
 ﻿using System;
 using TMPro;
+using TrainingApp.Constants;
+using TrainingApp.Enums;
 using TrainingApp.ImageProviderScripts;
 using TrainingApp.Models;
 using TrainingApp.ServiceLocatorScripts;
@@ -34,12 +36,13 @@ namespace TrainingApp.UI
 			_openTrainingPlanButton.onClick.RemoveListener(OnOpenTrainingPlanButtonClickedEventHandler);
 		}
 
-		public void Initialize(string guid, string name, int logoIndex)
+		public void Initialize(string guid, string name, int logoIndex, int logoColorIndex)
 		{
 			_trainingGuid = guid;
 
 			_trainingPlanNameText.text = name;
 			_trainingPlanImage.sprite = ServiceLocator.Instance.Get<ImageProvider>().GetImage(logoIndex);
+			_trainingPlanImage.color = CollectionsContainer.RGBColors[(ColorType)logoColorIndex];
 		}
 		
 		public void Destroy()

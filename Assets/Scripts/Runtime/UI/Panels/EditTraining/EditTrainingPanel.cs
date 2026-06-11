@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using TrainingApp.AccountScripts;
+using TrainingApp.Constants;
+using TrainingApp.Enums;
 using TrainingApp.ImageProviderScripts;
 using TrainingApp.Models;
 using TrainingApp.ServiceLocatorScripts;
@@ -48,6 +50,7 @@ namespace TrainingApp.UI
 		private List<EditExerciseElement> _editExerciseElements = new();
 		private TrainingData _trainingData;
 		private int _logoIndex;
+		private int _logoColorIndex;
 		
 		public override void Initialize(UIManager uiManager)
 		{
@@ -59,13 +62,15 @@ namespace TrainingApp.UI
 
 		public override void Open(PanelArgs args)
 		{
-			base.Open(args);
+			_selectLogoSubPanel.Close();
 			
 			_trainingData = (args as TrainingDataPanelArgs).TrainingData;
 			_logoIndex = _trainingData.LogoSpriteIndex;
+			_logoColorIndex = _trainingData.LogoColorIndex;
 			
 			_nameInputField.Initialize(_trainingData.Name);
 			_logoImage.sprite = _imageProvider.GetImage(_trainingData.LogoSpriteIndex);
+			_logoImage.color = CollectionsContainer.RGBColors[(ColorType)_logoColorIndex];
 			
 			foreach (var exerciseData in _trainingData.Exercises)
 			{
@@ -76,6 +81,8 @@ namespace TrainingApp.UI
 
 			_addExerciseButton.transform.SetParent(_temporaryAddExerciseButtonContainer);
 			_addExerciseButton.transform.SetParent(_exercisesContainer);
+			
+			base.Open(args);
 		}
 
 		public override void Close()
@@ -116,7 +123,7 @@ namespace TrainingApp.UI
 
 		private void OnSelectLogoButtonClickedEventHandler()
 		{
-			_selectLogoSubPanel.Open(_imageProvider.GetImages(), _logoIndex);
+			_selectLogoSubPanel.Open(_imageProvider, _logoIndex, _logoColorIndex);
 		}
 
 		private void OnAddExerciseButtonClickedEventHandler()
@@ -130,10 +137,12 @@ namespace TrainingApp.UI
 			_addExerciseButton.transform.SetParent(_exercisesContainer);
 		}
 
-		private void OnSelectLogoEventHandler(int logoIndex)
+		private void OnSelectLogoEventHandler(int logoIndex, int colorIndex)
 		{
 			_logoIndex = logoIndex;
+			_logoColorIndex = colorIndex;
 			_logoImage.sprite = _imageProvider.GetImage(_logoIndex);
+			_logoImage.color = CollectionsContainer.RGBColors[(ColorType)_logoColorIndex];
 		}
 
 		private void OnSaveButtonClickedEventHandler()
@@ -156,6 +165,7 @@ namespace TrainingApp.UI
 			{
 				_trainingData.Name = _nameInputField.Text;
 				_trainingData.LogoSpriteIndex = _logoIndex;
+				_trainingData.LogoColorIndex = _logoColorIndex;
 				_trainingData.Exercises = exercises;
 				
 				_accountController.AddOrUpdateTrainingData(_trainingData);

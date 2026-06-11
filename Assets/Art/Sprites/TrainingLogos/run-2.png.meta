@@ -1,37 +1,37 @@
 fileFormatVersion: 2
-guid: e01b23010c16fd943bf98b5c3ef88cf8
+guid: 4d1d05ec65ace4a4f9310a177680c7c6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3907782666050386449
-    second: running-shoe_0
+      213: -3938001860713157193
+    second: run-1_0
   - first:
-      213: 8363477640384873764
-    second: running-shoe_1
+      213: 8834172384314105925
+    second: run-1_1
   - first:
-      213: 7732892437058398879
-    second: running-shoe_2
+      213: 1153293603193998470
+    second: run-1_2
   - first:
-      213: 3963004114912730417
-    second: running-shoe_3
+      213: -3900716099776749125
+    second: run-1_3
   - first:
-      213: 8872964957830390904
-    second: running-shoe_4
+      213: -6203064134498845391
+    second: run-1_4
   - first:
-      213: 8466001403715577768
-    second: running-shoe_5
+      213: -2847020785086427983
+    second: run-1_5
   - first:
-      213: -549367663045450159
-    second: running-shoe_6
+      213: 3986460756882851236
+    second: run-1_6
   - first:
-      213: -7027071380199597551
-    second: running-shoe_7
+      213: 716281120610271831
+    second: run-1_7
   - first:
-      213: -8077941772854294526
-    second: running-shoe_8
+      213: -6766270098099037673
+    second: run-1_8
   - first:
-      213: 4083146565372360793
-    second: running-shoe_9
+      213: 3059530488845576917
+    second: run-1_9
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -123,11 +123,24 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: running-shoe_0
+      name: run-1_0
       rect:
         serializedVersion: 2
         x: 30
@@ -142,14 +155,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fe543aa9e54c4c9c0800000000000000
-      internalID: -3907782666050386449
+      spriteID: 7bd6d5f0c286959c0800000000000000
+      internalID: -3938001860713157193
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: running-shoe_1
+      name: run-1_1
       rect:
         serializedVersion: 2
         x: 72
@@ -164,14 +177,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 42500123a9a011470800000000000000
-      internalID: 8363477640384873764
+      spriteID: 540ab936af8499a70800000000000000
+      internalID: 8834172384314105925
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: running-shoe_2
+      name: run-1_2
       rect:
         serializedVersion: 2
         x: 178
@@ -186,14 +199,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f9aab2d63b0c05b60800000000000000
-      internalID: 7732892437058398879
+      spriteID: 68ccb14fb62510010800000000000000
+      internalID: 1153293603193998470
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: running-shoe_3
+      name: run-1_3
       rect:
         serializedVersion: 2
         x: 241
@@ -208,14 +221,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 13dd8c0ee3b6ff630800000000000000
-      internalID: 3963004114912730417
+      spriteID: bb1e827cf5fddd9c0800000000000000
+      internalID: -3900716099776749125
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: running-shoe_4
+      name: run-1_4
       rect:
         serializedVersion: 2
         x: 92
@@ -230,14 +243,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 87428ff3e9a132b70800000000000000
-      internalID: 8872964957830390904
+      spriteID: 13dfa30f80a4ae9a0800000000000000
+      internalID: -6203064134498845391
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: running-shoe_5
+      name: run-1_5
       rect:
         serializedVersion: 2
         x: 107
@@ -252,14 +265,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8a7ec600c674d7570800000000000000
-      internalID: 8466001403715577768
+      spriteID: 1bc05cc1ea95d78d0800000000000000
+      internalID: -2847020785086427983
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: running-shoe_6
+      name: run-1_6
       rect:
         serializedVersion: 2
         x: 127
@@ -274,14 +287,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 156e61965014068f0800000000000000
-      internalID: -549367663045450159
+      spriteID: 4a5890defe0c25730800000000000000
+      internalID: 3986460756882851236
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: running-shoe_7
+      name: run-1_7
       rect:
         serializedVersion: 2
         x: 57
@@ -296,14 +309,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 11a93eb8fc3da7e90800000000000000
-      internalID: -7027071380199597551
+      spriteID: 7524b4952edb0f900800000000000000
+      internalID: 716281120610271831
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: running-shoe_8
+      name: run-1_8
       rect:
         serializedVersion: 2
         x: 80
@@ -318,14 +331,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2080bb0a1c265ef80800000000000000
-      internalID: -8077941772854294526
+      spriteID: 71a957ce1316912a0800000000000000
+      internalID: -6766270098099037673
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: running-shoe_9
+      name: run-1_9
       rect:
         serializedVersion: 2
         x: 74
@@ -340,8 +353,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 95830e2fa204aa830800000000000000
-      internalID: 4083146565372360793
+      spriteID: 5da2e1ff4c2a57a20800000000000000
+      internalID: 3059530488845576917
       vertices: []
       indices: 
       edges: []
@@ -360,16 +373,16 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      running-shoe_0: -3907782666050386449
-      running-shoe_1: 8363477640384873764
-      running-shoe_2: 7732892437058398879
-      running-shoe_3: 3963004114912730417
-      running-shoe_4: 8872964957830390904
-      running-shoe_5: 8466001403715577768
-      running-shoe_6: -549367663045450159
-      running-shoe_7: -7027071380199597551
-      running-shoe_8: -8077941772854294526
-      running-shoe_9: 4083146565372360793
+      run-1_0: -3938001860713157193
+      run-1_1: 8834172384314105925
+      run-1_2: 1153293603193998470
+      run-1_3: -3900716099776749125
+      run-1_4: -6203064134498845391
+      run-1_5: -2847020785086427983
+      run-1_6: 3986460756882851236
+      run-1_7: 716281120610271831
+      run-1_8: -6766270098099037673
+      run-1_9: 3059530488845576917
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
