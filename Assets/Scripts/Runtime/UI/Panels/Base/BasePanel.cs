@@ -21,6 +21,10 @@ namespace TrainingApp.UI
 				IsOpen = true;
 				gameObject.SetActive(true);
 			}
+			else
+			{
+				UpdateContent();
+			}
 		}
 
 		public virtual void Close()
@@ -30,6 +34,7 @@ namespace TrainingApp.UI
 			gameObject.SetActive(false);
 		}
 
+		protected virtual void UpdateContent() { }
 		protected virtual void SubscribeOnEvents() { }
 		protected virtual void UnsubscribeFromEvents() { }
 	}

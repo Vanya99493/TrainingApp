@@ -46,9 +46,14 @@ namespace TrainingApp.UI
 
 		public override void Open(PanelArgs args)
 		{
+			bool isPreviouslyOpen = IsOpen;
+			
 			base.Open(args);
 
-			SetCalendar(DateTime.Today);
+			if (!isPreviouslyOpen)
+			{
+				SetCalendar(DateTime.Today);
+			}
 		}
 
 		public override void Close()
@@ -56,6 +61,13 @@ namespace TrainingApp.UI
 			base.Close();
 
 			ClearCalendar();
+		}
+
+		protected override void UpdateContent()
+		{
+			base.UpdateContent();
+			
+			SetCalendar(_currentSetDate);
 		}
 
 		protected override void SubscribeOnEvents()
@@ -215,7 +227,6 @@ namespace TrainingApp.UI
 
 		private void OnDayElementButtonClickedEventHandler(DayData selectedDayData)
 		{
-			_uiManager.CloseCalendarPanel();
 			_uiManager.OpenDayOverviewPanel(selectedDayData);
 		}
 	}
