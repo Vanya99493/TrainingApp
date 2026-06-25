@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc41a07be5b64f9fbb4e7c7099e58d45, type: 3}
   m_Name: SubTrainingStatesButtonPresetConfig
   m_EditorClassIdentifier: Assembly-CSharp::TrainingApp.Configs.UI.TwoStatesButtonPresetConfig
-  <InactiveColor>k__BackingField: {r: 0.41568628, g: 0.41568628, b: 0.41568628, a: 0.8627451}
-  <ActiveColor>k__BackingField: {r: 1, g: 0.59607846, b: 0, a: 0.8627451}
+  <InactiveColor>k__BackingField: {r: 0.41568628, g: 0.41568628, b: 0.41568628, a: 1}
+  <ActiveColor>k__BackingField: {r: 1, g: 0.59607846, b: 0, a: 1}
