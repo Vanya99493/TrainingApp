@@ -2,8 +2,7 @@
 using TMPro;
 using TrainingApp.Constants;
 using TrainingApp.Enums;
-using TrainingApp.ImageProviderScripts;
-using TrainingApp.Models;
+using TrainingApp.ServiceScripts;
 using TrainingApp.ServiceLocatorScripts;
 using UnityEngine;
 using UnityEngine.UI;
@@ -42,7 +41,7 @@ namespace TrainingApp.UI
 
 			_trainingPlanNameText.text = name;
 			_trainingPlanImage.sprite = ServiceLocator.Instance.Get<ImageProvider>().GetImage(logoIndex);
-			_trainingPlanImage.color = CollectionsContainer.RGBColors[(ColorType)logoColorIndex];
+			_trainingPlanImage.color = ServiceLocator.Instance.Get<ColorProvider>().GetColor(logoColorIndex);
 		}
 		
 		public void Destroy()

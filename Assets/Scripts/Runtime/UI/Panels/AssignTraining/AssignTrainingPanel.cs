@@ -3,9 +3,9 @@ using TMPro;
 using TrainingApp.AccountScripts;
 using TrainingApp.Constants;
 using TrainingApp.Enums;
-using TrainingApp.ImageProviderScripts;
 using TrainingApp.Models;
 using TrainingApp.ServiceLocatorScripts;
+using TrainingApp.ServiceScripts;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,6 +27,7 @@ namespace TrainingApp.UI
 
 		private AccountController _accountController;
 		private ImageProvider _imageProvider;
+		private ColorProvider _colorProvider;
 		private DayData _dayData;
 		private List<TrainingElement> _trainingElements = new();
 
@@ -36,6 +37,7 @@ namespace TrainingApp.UI
 			
 			_accountController = ServiceLocator.Instance.Get<AccountController>();
 			_imageProvider = ServiceLocator.Instance.Get<ImageProvider>();
+			_colorProvider = ServiceLocator.Instance.Get<ColorProvider>();
 		}
 
 		public override void Open(PanelArgs args)
@@ -63,7 +65,7 @@ namespace TrainingApp.UI
 			foreach (var trainingData in trainings)
 			{
 				Sprite trainingLogoSprite = _imageProvider.GetImage(trainingData.LogoSpriteIndex);
-				Color trainingLogoColor = CollectionsContainer.RGBColors[(ColorType)trainingData.LogoColorIndex];
+				Color trainingLogoColor = _colorProvider.GetColor(trainingData.LogoColorIndex);
 				
 				if (_dayData.ExerciseGuid == trainingData.Guid)
 				{

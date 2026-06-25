@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TrainingApp.Constants;
 using TrainingApp.Enums;
-using TrainingApp.ImageProviderScripts;
+using TrainingApp.ServiceScripts;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,15 +33,17 @@ namespace TrainingApp.UI
 		private int _logoElementsInRow = 4;
 
 		private ImageProvider _imageProvider;
+		private ColorProvider _colorProvider;
 		private List<LogoButtonElement> _logoButtonElements = new();
 		private int _logoIndex;
 		private int _logoColorIndex;
 
 		public event Action<int, int> SelectLogoEvent;
 
-		public void Open(ImageProvider imageProvider, int currentLogoIndex, int logoColorIndex)
+		public void Open(ImageProvider imageProvider, ColorProvider colorProvider, int currentLogoIndex, int logoColorIndex)
 		{
 			_imageProvider = imageProvider;
+			_colorProvider = colorProvider;
 			_logoIndex = currentLogoIndex;
 			_logoColorIndex = logoColorIndex;
 			
@@ -104,7 +106,7 @@ namespace TrainingApp.UI
 			{
 				int logoIndex = i;
 				var logoButton = _logoButtonElementFactory.InstantiateElement();
-				logoButton.Initialize(logos[i], CollectionsContainer.RGBColors[(ColorType)_logoColorIndex], logoIndex, i == _logoIndex);
+				logoButton.Initialize(logos[i], _colorProvider.GetColor(_logoColorIndex), logoIndex, i == _logoIndex);
 				logoButton.SelectLogoEvent += OnLogoSelectEventHandler;
 				_logoButtonElements.Add(logoButton);
 			}
@@ -112,7 +114,7 @@ namespace TrainingApp.UI
 
 		private void InitColors()
 		{
-			Color[] colors = CollectionsContainer.RGBColors.Select(x => x.Value).ToArray();
+			Color[] colors = _colorProvider.GetColors();
 
 			for (int i = 0; i < colors.Length; i++)
 			{
@@ -143,7 +145,7 @@ namespace TrainingApp.UI
 		private void UpdateLogoView()
 		{
 			_currentLogoImage.sprite = _imageProvider.GetImage(_logoIndex);
-			_currentLogoImage.color = CollectionsContainer.RGBColors[(ColorType)_logoColorIndex];
+			_currentLogoImage.color = _colorProvider.GetColor(_logoColorIndex);
 		}
 
 		private void ClearLogoElements()

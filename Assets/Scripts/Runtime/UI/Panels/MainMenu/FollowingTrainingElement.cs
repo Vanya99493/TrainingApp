@@ -4,9 +4,9 @@ using TrainingApp.Configs.UI;
 using TrainingApp.Constants;
 using TrainingApp.Enums;
 using TrainingApp.Extensions;
-using TrainingApp.ImageProviderScripts;
 using TrainingApp.Models;
 using TrainingApp.ServiceLocatorScripts;
+using TrainingApp.ServiceScripts;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -34,6 +34,7 @@ namespace TrainingApp.UI
 		private TrainingButtonPresetConfig _trainingButtonPresetConfig;
 
 		private ImageProvider _imageProvider;
+		private ColorProvider _colorProvider;
 		private DateTime _date;
 		
 		public event Action<DateTime> OpenTrainingEvent;
@@ -41,6 +42,7 @@ namespace TrainingApp.UI
 		public void Initialize(DayType assignedDay, DateTime date, bool isCompleted, TrainingData trainingData)
 		{
 			_imageProvider ??= ServiceLocator.Instance.Get<ImageProvider>();
+			_colorProvider ??= ServiceLocator.Instance.Get<ColorProvider>();
 			
 			_date = date;
 			_assignedDayText.text = assignedDay.ToString();
@@ -61,7 +63,7 @@ namespace TrainingApp.UI
 				
 				_trainingName.text = trainingData.Name;
 				_trainingLogoImage.sprite = _imageProvider.GetImage(trainingData.LogoSpriteIndex);
-				_trainingLogoImage.color = CollectionsContainer.RGBColors[(ColorType)trainingData.LogoColorIndex];
+				_trainingLogoImage.color = _colorProvider.GetColor(trainingData.LogoColorIndex);
 
 				Color trainingButtonColor = isCompleted
 					? _trainingButtonPresetConfig.CompletedTrainingColor

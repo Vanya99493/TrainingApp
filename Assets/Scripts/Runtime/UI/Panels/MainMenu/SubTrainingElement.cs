@@ -2,7 +2,7 @@
 using TMPro;
 using TrainingApp.Configs.UI;
 using TrainingApp.Extensions;
-using TrainingApp.ImageProviderScripts;
+using TrainingApp.ServiceScripts;
 using TrainingApp.Models;
 using TrainingApp.ServiceLocatorScripts;
 using UnityEngine;

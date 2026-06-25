@@ -36,6 +36,7 @@ namespace TrainingApp.UI
 			if (trainingLogo)
 			{
 				_trainingLogoImage.sprite = trainingLogo;
+				trainingLogoColor.a = dayData.IsTrainingCompleted ? 1f : 0.5f;
 				_trainingLogoImage.color = trainingLogoColor;
 			}
 			else

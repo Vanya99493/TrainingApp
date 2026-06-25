@@ -1,5 +1,5 @@
 ﻿using TrainingApp.AccountScripts;
-using TrainingApp.ImageProviderScripts;
+using TrainingApp.ServiceScripts;
 using TrainingApp.ServiceLocatorScripts;
 using TrainingApp.UI;
 using UnityEngine;
@@ -18,6 +18,9 @@ namespace TrainingApp.Entry
 		[SerializeField]
 		private ImageProvider _imageProvider;
 
+		[SerializeField]
+		private ColorProvider _colorProvider;
+
 		private void Awake()
 		{
 			Initialize();
@@ -27,6 +30,7 @@ namespace TrainingApp.Entry
 		{
 			ServiceLocator.Instance.Register(_accountController);
 			ServiceLocator.Instance.Register(_imageProvider);
+			ServiceLocator.Instance.Register(_colorProvider);
 			
 			_accountController.Initialize();
 			_uiManager.Initialize();

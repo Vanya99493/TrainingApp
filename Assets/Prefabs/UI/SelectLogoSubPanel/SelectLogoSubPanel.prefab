@@ -1055,7 +1055,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8398283d11714f9690655b528b04e173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrainingApp.UI.LogoButtonFactory
-  _elementPrefab: {fileID: 8981955290864958910, guid: 52898ce5c83e562459bae73160631a51, type: 3}
+  _elementPrefab: {fileID: 4065329722817248557, guid: 52898ce5c83e562459bae73160631a51, type: 3}
   _elementParent: {fileID: 5328567297947699052}
   _gridLayoutGroup: {fileID: 9158961353087421662}
 --- !u!1 &5936529670096531815

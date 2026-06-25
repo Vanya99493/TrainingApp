@@ -2,9 +2,9 @@
 using TrainingApp.AccountScripts;
 using TrainingApp.Constants;
 using TrainingApp.Enums;
-using TrainingApp.ImageProviderScripts;
 using TrainingApp.Models;
 using TrainingApp.ServiceLocatorScripts;
+using TrainingApp.ServiceScripts;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -46,6 +46,7 @@ namespace TrainingApp.UI
 
 		private AccountController _accountController;
 		private ImageProvider _imageProvider;
+		private ColorProvider _colorProvider;
 
 		private List<EditExerciseElement> _editExerciseElements = new();
 		private TrainingData _trainingData;
@@ -58,6 +59,7 @@ namespace TrainingApp.UI
 
 			_accountController = ServiceLocator.Instance.Get<AccountController>();
 			_imageProvider = ServiceLocator.Instance.Get<ImageProvider>();
+			_colorProvider = ServiceLocator.Instance.Get<ColorProvider>();
 		}
 
 		public override void Open(PanelArgs args)
@@ -70,7 +72,7 @@ namespace TrainingApp.UI
 			
 			_nameInputField.Initialize(_trainingData.Name);
 			_logoImage.sprite = _imageProvider.GetImage(_trainingData.LogoSpriteIndex);
-			_logoImage.color = CollectionsContainer.RGBColors[(ColorType)_logoColorIndex];
+			_logoImage.color = _colorProvider.GetColor(_logoColorIndex);
 			
 			foreach (var exerciseData in _trainingData.Exercises)
 			{
@@ -123,7 +125,7 @@ namespace TrainingApp.UI
 
 		private void OnSelectLogoButtonClickedEventHandler()
 		{
-			_selectLogoSubPanel.Open(_imageProvider, _logoIndex, _logoColorIndex);
+			_selectLogoSubPanel.Open(_imageProvider, _colorProvider, _logoIndex, _logoColorIndex);
 		}
 
 		private void OnAddExerciseButtonClickedEventHandler()
@@ -142,7 +144,7 @@ namespace TrainingApp.UI
 			_logoIndex = logoIndex;
 			_logoColorIndex = colorIndex;
 			_logoImage.sprite = _imageProvider.GetImage(_logoIndex);
-			_logoImage.color = CollectionsContainer.RGBColors[(ColorType)_logoColorIndex];
+			_logoImage.color = _colorProvider.GetColor(_logoColorIndex);
 		}
 
 		private void OnSaveButtonClickedEventHandler()

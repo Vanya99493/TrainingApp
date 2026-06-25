@@ -4,9 +4,9 @@ using TMPro;
 using TrainingApp.AccountScripts;
 using TrainingApp.Constants;
 using TrainingApp.Enums;
-using TrainingApp.ImageProviderScripts;
 using TrainingApp.Models;
 using TrainingApp.ServiceLocatorScripts;
+using TrainingApp.ServiceScripts;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,6 +32,7 @@ namespace TrainingApp.UI
 
 		private AccountController _accountController;
 		private ImageProvider _imageProvider;
+		private ColorProvider _colorProvider;
 
 		private List<CalendarRowElement> _calendarRowElements = new();
 		private DateTime _currentSetDate;
@@ -42,6 +43,7 @@ namespace TrainingApp.UI
 
 			_accountController = ServiceLocator.Instance.Get<AccountController>();
 			_imageProvider = ServiceLocator.Instance.Get<ImageProvider>();
+			_colorProvider = ServiceLocator.Instance.Get<ColorProvider>();
 		}
 
 		public override void Open(PanelArgs args)
@@ -191,7 +193,7 @@ namespace TrainingApp.UI
 						default:
 							TrainingData trainingData = _accountController.GetTraining(dayData.ExerciseGuid);
 							trainingLogoSprite = _imageProvider.GetImage(trainingData.LogoSpriteIndex);
-							trainingLogoColor = CollectionsContainer.RGBColors[(ColorType)trainingData.LogoColorIndex];
+							trainingLogoColor = _colorProvider.GetColor(trainingData.LogoColorIndex);
 							break;
 					}
 					
@@ -203,7 +205,7 @@ namespace TrainingApp.UI
 						default:
 							SubTrainingData subTrainingData = _accountController.GetSubTraining(dayData.SubTrainingGuid);
 							subTrainingLogoSprite = _imageProvider.GetImage(subTrainingData.LogoSpriteIndex);
-							subTrainingLogoColor = CollectionsContainer.RGBColors[(ColorType)subTrainingData.LogoColorIndex];
+							subTrainingLogoColor = _colorProvider.GetColor(subTrainingData.LogoColorIndex);
 							break;
 					}
 

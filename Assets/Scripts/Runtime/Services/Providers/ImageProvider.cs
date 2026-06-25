@@ -1,7 +1,7 @@
 ﻿using TrainingApp.ServiceLocatorScripts;
 using UnityEngine;
 
-namespace TrainingApp.ImageProviderScripts
+namespace TrainingApp.ServiceScripts
 {
 	public class ImageProvider : MonoBehaviour, IService
 	{
