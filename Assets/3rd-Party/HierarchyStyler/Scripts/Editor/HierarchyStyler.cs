@@ -1,11 +1,9 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using TrainingApp.Constants;
-using TrainingApp.Enums;
 using UnityEditor;
 using UnityEngine;
 
-namespace TrainingApp.Editor.Hierarchy
+namespace HierarchyStylerLogic
 {
     [InitializeOnLoad]
     public class HierarchyStyler
@@ -16,12 +14,12 @@ namespace TrainingApp.Editor.Hierarchy
 
         static HierarchyStyler()
         {
-            EditorApplication.hierarchyWindowItemOnGUI += OnHierarchyGUI;
+            EditorApplication.hierarchyWindowItemByEntityIdOnGUI += OnHierarchyGUI;
         }
 
-        private static void OnHierarchyGUI(int instanceID, Rect rect)
+        private static void OnHierarchyGUI(EntityId instanceID, Rect rect)
         {
-            if (EditorUtility.InstanceIDToObject(instanceID) is not GameObject go)
+            if (EditorUtility.EntityIdToObject(instanceID) is not GameObject go)
             {
                 return;
             }
@@ -35,7 +33,7 @@ namespace TrainingApp.Editor.Hierarchy
             int dashCount = match.Groups[1].Value.Length;
             string title = match.Groups[2].Value;
 
-            EditorGUI.DrawRect(rect, CollectionsContainer.RGBColors[ColorType.DarkGrey]);
+            EditorGUI.DrawRect(rect, new Color(0.22f, 0.22f, 0.22f));
 
             EditorGUI.LabelField(rect, GUIContent.none);
 
@@ -61,12 +59,12 @@ namespace TrainingApp.Editor.Hierarchy
         {
             return count switch
             {
-                3 => CollectionsContainer.RGBColors[ColorType.PaleBlue],
-                4 => CollectionsContainer.RGBColors[ColorType.PaleGreen],
-                5 => CollectionsContainer.RGBColors[ColorType.Orange],
-                6 => CollectionsContainer.RGBColors[ColorType.LightGreen],
-                >= 7 => CollectionsContainer.RGBColors[ColorType.PalePurple],
-                _ => CollectionsContainer.RGBColors[ColorType.White]
+                3 => new Color(0.118f, 0.471f, 0.596f),
+                4 => new Color(0.561f, 0.820f, 0.620f),
+                5 => new Color(1.0f, 0.55f, 0.0f),
+                6 => new Color(0.6f, 1.0f, 0.4f),
+                >= 7 => new Color(0.78f, 0.68f, 0.92f),
+                _ => new Color(1f, 1f, 1f)
             };
         }
     }
