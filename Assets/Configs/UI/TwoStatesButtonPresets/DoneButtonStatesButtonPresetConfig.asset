@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: DoneButtonStatesButtonPresetConfig
   m_EditorClassIdentifier: Assembly-CSharp::TrainingApp.Configs.UI.TwoStatesButtonPresetConfig
   <InactiveColor>k__BackingField: {r: 0.18039216, g: 0.18039216, b: 0.18039216, a: 0.5019608}
-  <ActiveColor>k__BackingField: {r: 0.6117647, g: 0.80784315, b: 0.7647059, a: 1}
+  <ActiveColor>k__BackingField: {r: 0.26179245, g: 0.5, b: 0.44759434, a: 1}
