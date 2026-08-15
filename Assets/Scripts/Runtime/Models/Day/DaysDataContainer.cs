@@ -23,7 +23,6 @@ namespace TrainingApp.Models
 				DateTime = dateTime,
 				Version = ApplicationInfoProvider.ApplicationVersion,
 			};
-			
 		}
 
 		public void SetOrUpdateDayData(DayData dayData)

@@ -7,8 +7,12 @@ namespace TrainingApp.UI
 	public class StreakElement : MonoBehaviour
 	{
 		[SerializeField]
-		private TMP_Text _streakText;
+		private TMP_Text _streakValueText;
 
+		[SerializeField]
+		private TMP_Text _streakTitleText;
+
+		[Space(10)]
 		[SerializeField]
 		private Image _streakImage;
 
@@ -19,7 +23,10 @@ namespace TrainingApp.UI
 
 		private void UpdateCurrentStreak(int currentStreak)
 		{
-			_streakText.text = currentStreak.ToString();
+			_streakValueText.text = currentStreak.ToString();
+			_streakTitleText.text = currentStreak == 1
+				? "DAY"
+				: "DAYS";
 			_streakImage.gameObject.SetActive(currentStreak > 0);
 		}
 	}
