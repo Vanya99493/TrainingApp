@@ -10,8 +10,9 @@ namespace TrainingApp.Models
 		public string Version = "";
 		public string ExerciseGuid = "";
 		public string SubTrainingGuid = "";
-		public TeethData TeethData;
-		public HarmfulActivitiesData HarmfulActivitiesData;
+		public TeethData TeethData = new();
+		public HarmfulActivitiesData HarmfulActivitiesData = new();
+		public EnglishLessonData EnglishLessonData = new();
 		public bool IsTrainingCompleted;
 		public int SetsCount;
 		
@@ -22,8 +23,6 @@ namespace TrainingApp.Models
 			DateTime = DateTime.Today;
 			Version = ApplicationInfoProvider.ApplicationVersion;
 			ExerciseGuid = exerciseGuid;
-			TeethData = new();
-			HarmfulActivitiesData = new();
 		}
 	}
 }

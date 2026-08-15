@@ -20,6 +20,9 @@ namespace TrainingApp.UI
 
 		[SerializeField]
 		private Button _changeTrainingButton;
+
+		[SerializeField]
+		private EnglishLessonElement _englishLessonElement;
 		
 		[SerializeField]
 		private FollowingTrainingElement _todaysTrainingElement;
@@ -49,6 +52,7 @@ namespace TrainingApp.UI
 
 			_dayOfWeekText.text = DateTimeConstants.DayOfWeekStrings[_dayData.DateTime.DayOfWeek];
 
+			_englishLessonElement.Initialize(_dayData.DateTime, _dayData.EnglishLessonData);
 			_teethBrushingElement.Initialize(_dayData.TeethData);
 			_harmfulActivitiesElement.Initialize(_dayData.HarmfulActivitiesData.IsDrinkingToday);
 			_todaysTrainingElement.Initialize(DayType.Today, _dayData.DateTime, _dayData.IsTrainingCompleted, _accountController.GetTraining(_dayData.ExerciseGuid));
@@ -64,6 +68,7 @@ namespace TrainingApp.UI
 			_closeButton.onClick.AddListener(OnCloseButtonClickedEventHandler);
 			_changeTrainingButton.onClick.AddListener(OnChangeTrainingButtonClickedEventHandler);
 
+			_englishLessonElement.OpenEnglishLessonEvent += OnOpenEnglishLessonEventHandler;
 			_teethBrushingElement.TeethBrushingStateChangedEvent += OnTeethBrushingStateChangedEventHandler;
 			_harmfulActivitiesElement.DrinkingStateChangedEvent += OnDrinkingStateChangedEventHandler;
 			_todaysTrainingElement.OpenTrainingEvent += OpenTrainingPanel;
@@ -77,10 +82,17 @@ namespace TrainingApp.UI
 			_closeButton.onClick.RemoveListener(OnCloseButtonClickedEventHandler);
 			_changeTrainingButton.onClick.RemoveListener(OnChangeTrainingButtonClickedEventHandler);
 			
+			_englishLessonElement.OpenEnglishLessonEvent -= OnOpenEnglishLessonEventHandler;
 			_teethBrushingElement.TeethBrushingStateChangedEvent -= OnTeethBrushingStateChangedEventHandler;
 			_harmfulActivitiesElement.DrinkingStateChangedEvent -= OnDrinkingStateChangedEventHandler;
 			_todaysTrainingElement.OpenTrainingEvent -= OpenTrainingPanel;
 			_subTrainingElement.OpenSubTrainingEvent -= OnOpenSubTrainingEventHandler;
+		}
+
+		private void OnOpenEnglishLessonEventHandler(DateTime date)
+		{
+			_uiManager.CloseDayOverviewPanel();
+			_uiManager.OpenEnglishLessonPanel(_dayData);
 		}
 
 		private void OnCloseButtonClickedEventHandler()

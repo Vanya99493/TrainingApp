@@ -39,6 +39,16 @@ namespace TrainingApp.UI
 		
 		public event Action<DateTime> OpenTrainingEvent;
 
+		private void OnEnable()
+		{
+			_trainingButton.onClick.AddListener(OnOpenTrainingButtonClickedEventHandler);
+		}
+
+		private void OnDestroy()
+		{
+			_trainingButton.onClick.RemoveListener(OnOpenTrainingButtonClickedEventHandler);
+		}
+
 		public void Initialize(DayType assignedDay, DateTime date, bool isCompleted, TrainingData trainingData)
 		{
 			_imageProvider ??= ServiceLocator.Instance.Get<ImageProvider>();
@@ -72,16 +82,6 @@ namespace TrainingApp.UI
 						: _trainingButtonPresetConfig.InactiveColor;
 				_trainingButton.SetNormalColor(trainingButtonColor);
 			}
-		}
-
-		private void OnEnable()
-		{
-			_trainingButton.onClick.AddListener(OnOpenTrainingButtonClickedEventHandler);
-		}
-
-		private void OnDestroy()
-		{
-			_trainingButton.onClick.RemoveListener(OnOpenTrainingButtonClickedEventHandler);
 		}
 
 		private void OnOpenTrainingButtonClickedEventHandler()

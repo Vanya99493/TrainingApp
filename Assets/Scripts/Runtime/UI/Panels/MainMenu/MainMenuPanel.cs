@@ -11,6 +11,9 @@ namespace TrainingApp.UI
 	{
 		[SerializeField]
 		private StreakElement _streakElement;
+		
+		[SerializeField]
+		private EnglishLessonElement _englishLessonElement;
 
 		[SerializeField]
 		private SubTrainingElement _subTrainingElement;
@@ -43,6 +46,7 @@ namespace TrainingApp.UI
 			_todayData = _accountController.GetDayData(DateTime.Today);
 			
 			_streakElement.Initialize(_accountController.GetStreak());
+			_englishLessonElement.Initialize(_todayData.DateTime, _todayData.EnglishLessonData);
 			_subTrainingElement.Initialize(_todayData.DateTime, _accountController.GetSubTraining(_todayData.SubTrainingGuid), _todayData.IsSubTrainingCompleted);
 			_teethBrushingElement.Initialize(_todayData.TeethData);
 			_harmfulActivitiesElement.Initialize(_todayData.HarmfulActivitiesData.IsDrinkingToday);
@@ -56,6 +60,7 @@ namespace TrainingApp.UI
 		{
 			base.SubscribeOnEvents();
 
+			_englishLessonElement.OpenEnglishLessonEvent += OnOpenEnglishLessonEventHandler;
 			_subTrainingElement.OpenSubTrainingEvent += OnOpenSubTrainingEventHandler;
 			_teethBrushingElement.TeethBrushingStateChangedEvent += OnTeethBrushingStateChangedEventHandler;
 			_harmfulActivitiesElement.DrinkingStateChangedEvent += OnDrinkingStateChangedEventHandler;
@@ -67,11 +72,18 @@ namespace TrainingApp.UI
 		{
 			base.UnsubscribeFromEvents();
 			
+			_englishLessonElement.OpenEnglishLessonEvent -= OnOpenEnglishLessonEventHandler;
 			_subTrainingElement.OpenSubTrainingEvent -= OnOpenSubTrainingEventHandler;
 			_teethBrushingElement.TeethBrushingStateChangedEvent -= OnTeethBrushingStateChangedEventHandler;
 			_harmfulActivitiesElement.DrinkingStateChangedEvent -= OnDrinkingStateChangedEventHandler;
 			_todaysTrainingElement.OpenTrainingEvent -= OpenTrainingPanel;
 			_tomorrowsTrainingElement.OpenTrainingEvent -= OpenTrainingPanel;
+		}
+
+		private void OnOpenEnglishLessonEventHandler(DateTime date)
+		{
+			_uiManager.CloseMainMenuPanel();
+			_uiManager.OpenEnglishLessonPanel(_todayData);
 		}
 		
 		private void OnOpenSubTrainingEventHandler(DateTime date)

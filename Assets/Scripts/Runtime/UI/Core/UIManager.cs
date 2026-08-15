@@ -20,6 +20,9 @@ namespace TrainingApp.UI
 
 		[SerializeField]
 		private DayOverviewPanel _dayOverviewPanel;
+		
+		[SerializeField]
+		private EnglishLessonPanel _englishLessonPanel;
 
 		[SerializeField]
 		private TrainingPlansPanel _trainingPlansPanel;
@@ -50,6 +53,7 @@ namespace TrainingApp.UI
 				{ typeof(MainMenuPanel), _mainMenuPanel },
 				{ typeof(CalendarPanel), _calendarPanel },
 				{ typeof(DayOverviewPanel), _dayOverviewPanel },
+				{ typeof(EnglishLessonPanel), _englishLessonPanel },
 				{ typeof(TrainingPlansPanel), _trainingPlansPanel },
 				{ typeof(TrainingPanel), _trainingPanel },
 				{ typeof(SubTrainingPanel), _subTrainingPanel },
@@ -65,6 +69,7 @@ namespace TrainingApp.UI
 			_mainMenuPanel.Initialize(this);
 			_calendarPanel.Initialize(this);
 			_dayOverviewPanel.Initialize(this);
+			_englishLessonPanel.Initialize(this);
 			_trainingPlansPanel.Initialize(this);
 			_trainingPanel.Initialize(this);
 			_subTrainingPanel.Initialize(this);
@@ -80,6 +85,7 @@ namespace TrainingApp.UI
 			CloseMainMenuPanel();
 			CloseCalendarPanel();
 			CloseDayOverviewPanel();
+			CLoseEnglishLessonPanel();
 			CloseTrainingPlansPanel();
 			CloseTrainingPanel();
 			CloseSubTrainingPanel();
@@ -146,6 +152,12 @@ namespace TrainingApp.UI
 			_currentActivePanels.Add(_dayOverviewPanel);
 			_dayOverviewPanel.Open(new DayDataPanelArgs(selectedDayData));
 		}
+
+		public void OpenEnglishLessonPanel(DayData datData)
+		{
+			_currentActivePanels.Add(_englishLessonPanel);
+			_englishLessonPanel.Open(new DayDataPanelArgs(datData));
+		}
 		
 		public void OpenTrainingPanel(DayData dayData)
 		{
@@ -203,6 +215,13 @@ namespace TrainingApp.UI
 			_currentActivePanels.Remove(_dayOverviewPanel);
 			_dayOverviewPanel.Close();
 			_lastClosedPanel = _dayOverviewPanel;
+		}
+
+		public void CLoseEnglishLessonPanel()
+		{
+			_currentActivePanels.Remove(_englishLessonPanel);
+			_englishLessonPanel.Close();
+			_lastClosedPanel = _englishLessonPanel;
 		}
 		
 		public void CloseTrainingPanel()
