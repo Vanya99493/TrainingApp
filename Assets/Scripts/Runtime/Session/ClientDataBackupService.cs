@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Newtonsoft.Json;
 using TrainingApp.Models;
 using TrainingApp.ServiceLocatorScripts;
 using UnityEngine;
@@ -186,8 +187,7 @@ namespace TrainingApp.SessionScripts
 
             try
             {
-                clientData = JsonUtility.FromJson<ClientData>(json);
-
+                clientData = JsonConvert.DeserializeObject<ClientData>(json);
                 return clientData != null;
             }
             catch (Exception exception)
