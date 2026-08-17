@@ -125,6 +125,12 @@ namespace TrainingApp.AccountScripts
 			_clientDataProvider.SaveData(ClientData);
 		}
 
+		public void UpdateLastBackupDate(DateTime lastBackupDate)
+		{
+			ClientData.BackupDate = lastBackupDate;
+			_clientDataProvider.SaveData(ClientData);
+		}
+
 		private TrainingData GetTrainingOfDay(DateTime dateTime)
 		{
 			string dayExerciseGuid = ClientData.DaysData.GetDayData(dateTime).ExerciseGuid;

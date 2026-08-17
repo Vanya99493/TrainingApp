@@ -7,6 +7,9 @@ namespace TrainingApp.UI
 	public class ToggleButtonGroup : MonoBehaviour
 	{
 		[SerializeField]
+		private bool _enableSelfClickDeactivation = true;
+		
+		[SerializeField]
 		private List<ToggleButton> _toggleButtons = new();
 		
 		private int _currentSelectedIndex;
@@ -73,6 +76,11 @@ namespace TrainingApp.UI
 						}
 						SelectToggleButtonEvent?.Invoke(_currentSelectedIndex);
 					}
+				}
+				else if(_currentSelectedIndex == index 
+				        && !_enableSelfClickDeactivation)
+				{
+					_toggleButtons[_currentSelectedIndex].SetStateWithoutCallbacks(true);
 				}
 				else
 				{

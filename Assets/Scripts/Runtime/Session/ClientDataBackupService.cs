@@ -1,11 +1,12 @@
 ﻿using System;
 using System.IO;
 using TrainingApp.Models;
+using TrainingApp.ServiceLocatorScripts;
 using UnityEngine;
 
 namespace TrainingApp.SessionScripts
 {
-	public class ClientDataBackupService : MonoBehaviour
+	public class ClientDataBackupService : MonoBehaviour, IService
     {
         private const string CLIENT_DATA_KEY = "ClientData";
 
@@ -199,9 +200,9 @@ namespace TrainingApp.SessionScripts
 
         private static string CreateBackupFileName()
         {
-            string timestamp = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
+            string timestamp = DateTime.Now.ToString("dd-MM-yyyy_HH-mm-ss");
 
-            return $"ClientData_{timestamp}.json";
+            return $"CD_{timestamp}.json";
         }
 
         private void OnDestroy()

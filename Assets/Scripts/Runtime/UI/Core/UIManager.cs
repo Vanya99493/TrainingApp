@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TrainingApp.Models;
+using TrainingApp.UI.Panels;
 using UnityEngine;
 
 namespace TrainingApp.UI
@@ -12,6 +13,9 @@ namespace TrainingApp.UI
 		private NavigationFooter _navigationFooter;
 		
 		[Header("Panels")]
+		[SerializeField]
+		private SettingsPanel _settingsPanel;
+		
 		[SerializeField]
 		private MainMenuPanel _mainMenuPanel;
 
@@ -50,6 +54,7 @@ namespace TrainingApp.UI
 		{
 			_panels = new()
 			{
+				{ typeof(SettingsPanel), _settingsPanel },
 				{ typeof(MainMenuPanel), _mainMenuPanel },
 				{ typeof(CalendarPanel), _calendarPanel },
 				{ typeof(DayOverviewPanel), _dayOverviewPanel },
@@ -66,6 +71,7 @@ namespace TrainingApp.UI
 
 			_navigationFooter.Initialize(this);
 			
+			_settingsPanel.Initialize(this);
 			_mainMenuPanel.Initialize(this);
 			_calendarPanel.Initialize(this);
 			_dayOverviewPanel.Initialize(this);
@@ -82,6 +88,7 @@ namespace TrainingApp.UI
 
 		public void CloseAllPanels()
 		{
+			CloseSettingsPanel();
 			CloseMainMenuPanel();
 			CloseCalendarPanel();
 			CloseDayOverviewPanel();
@@ -127,6 +134,12 @@ namespace TrainingApp.UI
 			{
 				_currentActivePanels.Remove(currentActivePanel);
 			}
+		}
+
+		public void OpenSettingsPanel()
+		{
+			_currentActivePanels.Add(_settingsPanel);
+			_settingsPanel.Open(new PanelArgs());
 		}
 		
 		public void OpenMainMenuPanel()
@@ -187,6 +200,13 @@ namespace TrainingApp.UI
 		{
 			_currentActivePanels.Add(_assignTrainingPanel);
 			_assignTrainingPanel.Open(new DayDataPanelArgs(dayData));
+		}
+
+		public void CloseSettingsPanel()
+		{
+			_currentActivePanels.Remove(_settingsPanel);
+			_settingsPanel.Close();
+			_lastClosedPanel = _settingsPanel;
 		}
 		
 		public void CloseMainMenuPanel()

@@ -56,6 +56,16 @@ namespace TrainingApp.UI
 			ToggleButtonStateChangedEvent?.Invoke(_isActive);
 		}
 
+		public void SetStateWithoutCallbacks(bool isActive)
+		{
+			_isActive = isActive;
+			
+			foreach (var stateVisualizationStrategy in _statesVisualizationStrategies)
+			{
+				stateVisualizationStrategy.SetState(isActive);
+			}
+		}
+
 		public void SetInteractable(bool isInteractable)
 		{
 			_button.interactable = isInteractable;

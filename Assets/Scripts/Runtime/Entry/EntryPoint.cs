@@ -1,6 +1,7 @@
 ﻿using TrainingApp.AccountScripts;
 using TrainingApp.ServiceScripts;
 using TrainingApp.ServiceLocatorScripts;
+using TrainingApp.SessionScripts;
 using TrainingApp.UI;
 using UnityEngine;
 
@@ -16,6 +17,9 @@ namespace TrainingApp.Entry
 		private AccountController _accountController;
 
 		[SerializeField]
+		private ClientDataBackupService _clientDataBackupService;
+
+		[SerializeField]
 		private ImageProvider _imageProvider;
 
 		[SerializeField]
@@ -29,6 +33,7 @@ namespace TrainingApp.Entry
 		private void Initialize()
 		{
 			ServiceLocator.Instance.Register(_accountController);
+			ServiceLocator.Instance.Register(_clientDataBackupService);
 			ServiceLocator.Instance.Register(_imageProvider);
 			ServiceLocator.Instance.Register(_colorProvider);
 			

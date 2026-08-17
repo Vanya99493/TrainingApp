@@ -6,9 +6,6 @@ namespace TrainingApp.UI
 	public class NavigationFooter : BasePanel
 	{
 		[SerializeField]
-		private Button _profileButton;
-		
-		[SerializeField]
 		private Button _trainingPlansButton;
 
 		[SerializeField]
@@ -16,6 +13,9 @@ namespace TrainingApp.UI
 		
 		[SerializeField]
 		private Button _mainMenuButton;
+		
+		[SerializeField]
+		private Button _settingsButton;
 
 		[Space(20)]
 		[SerializeField]
@@ -32,26 +32,20 @@ namespace TrainingApp.UI
 		{
 			base.SubscribeOnEvents();
 			
-			_profileButton.onClick.AddListener(OnProfileButtonCLickedEventHandler);
 			_trainingPlansButton.onClick.AddListener(OnTrainingPlansButtonClickedEventHandler);
 			_calendarButton.onClick.AddListener(OnCalendarButtonClickedEventHandler);
 			_mainMenuButton.onClick.AddListener(OnMainMenuButtonClickedEventHandler);
+			_settingsButton.onClick.AddListener(OnSettingsButtonCLickedEventHandler);
 		}
 
 		protected override void UnsubscribeFromEvents()
 		{
 			base.UnsubscribeFromEvents();
 			
-			_profileButton.onClick.RemoveListener(OnProfileButtonCLickedEventHandler);
 			_trainingPlansButton.onClick.RemoveListener(OnTrainingPlansButtonClickedEventHandler);
 			_calendarButton.onClick.RemoveListener(OnCalendarButtonClickedEventHandler);
 			_mainMenuButton.onClick.RemoveListener(OnMainMenuButtonClickedEventHandler);
-		}
-
-		private void OnProfileButtonCLickedEventHandler()
-		{
-			_uiManager.CloseCurrentActivePanels();
-			// TODO: add profile panel opening
+			_settingsButton.onClick.RemoveListener(OnSettingsButtonCLickedEventHandler);
 		}
 
 		private void OnTrainingPlansButtonClickedEventHandler()
@@ -70,6 +64,12 @@ namespace TrainingApp.UI
 		{
 			_uiManager.CloseCurrentActivePanels();
 			_uiManager.OpenMainMenuPanel();
+		}
+
+		private void OnSettingsButtonCLickedEventHandler()
+		{
+			_uiManager.CloseCurrentActivePanels();
+			_uiManager.OpenSettingsPanel();
 		}
 	}
 }

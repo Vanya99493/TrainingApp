@@ -1,53 +1,123 @@
-﻿using TrainingApp.SessionScripts;
+﻿using System;
+using TrainingApp.AccountScripts;
+using TrainingApp.Constants;
+using TrainingApp.Models;
+using TrainingApp.ServiceLocatorScripts;
+using TrainingApp.SessionScripts;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace TrainingApp.UI.Panels
 {
-	public class SettingsPanel : MonoBehaviour
+	public class SettingsPanel : BasePanel
 	{
 		[SerializeField]
+		private SettingsHeaderElement _settingsHeaderElement;
+
+		[SerializeField]
+		private SettingsBackupManagementElement _settingsBackupManagementElement;
+
+		private AccountController _accountController;
 		private ClientDataBackupService _clientDataBackupService;
 
-		[Header("UI Elements")]
-		[SerializeField]
-		private Button _closeButton;
-		
-		[SerializeField]
-		private Button _exportButton;
-
-		[SerializeField]
-		private Button _importButton;
-
-		private void OnEnable()
+		protected override void SubscribeOnEvents()
 		{
-			_closeButton.onClick.AddListener(OnCloseButtonClickedEventHandler);
+			base.SubscribeOnEvents();
+
+			_settingsBackupManagementElement.ExportDataEvent += OnExportBackupEventHandler;
+			_settingsBackupManagementElement.ImportDataEvent += OnImportBackupEventHandler;
+		}
+
+		protected override void UnsubscribeFromEvents()
+		{
+			base.UnsubscribeFromEvents();
 			
-			_exportButton.onClick.AddListener(OnExportButtonClickedEventHandler);
-			_importButton.onClick.AddListener(OnImportButtonClickedEventHandler);
+			_settingsBackupManagementElement.ExportDataEvent -= OnExportBackupEventHandler;
+			_settingsBackupManagementElement.ImportDataEvent -= OnImportBackupEventHandler;
 		}
 
-		private void OnDisable()
+		public override void Initialize(UIManager uiManager)
 		{
-			_closeButton.onClick.RemoveListener(OnCloseButtonClickedEventHandler);
+			base.Initialize(uiManager);
 
-			_exportButton.onClick.RemoveListener(OnExportButtonClickedEventHandler);
-			_importButton.onClick.RemoveListener(OnImportButtonClickedEventHandler);
+			_accountController = ServiceLocator.Instance.Get<AccountController>();
+			_clientDataBackupService = ServiceLocator.Instance.Get<ClientDataBackupService>();
 		}
 
-		private void OnCloseButtonClickedEventHandler()
+		public override void Open(PanelArgs args)
 		{
-			gameObject.SetActive(false);
+			if (_clientDataBackupService != null)
+			{
+				_clientDataBackupService.ExportStarted += OnExportStartedEventHandler;
+				_clientDataBackupService.ExportCompleted += OnExportCompletedEventHandler;
+				_clientDataBackupService.ExportFailed += OnExportFailedEventHandler;
+			
+				_clientDataBackupService.ImportStarted += OnImportStartedEventHandler;
+				_clientDataBackupService.ImportCompleted += OnImportCompletedEventHandler;
+				_clientDataBackupService.ImportFailed += OnImportFailedEventHandler;
+			}
+			
+			_settingsHeaderElement.Initialize(_accountController.ClientData.Name);
+			_settingsBackupManagementElement.Initialize(_accountController.ClientData.BackupDate);
+			
+			base.Open(args);
 		}
-		
-		private void OnExportButtonClickedEventHandler()
+
+		public override void Close()
+		{
+			if (_clientDataBackupService != null)
+			{
+				_clientDataBackupService.ExportStarted -= OnExportStartedEventHandler;
+				_clientDataBackupService.ExportCompleted -= OnExportCompletedEventHandler;
+				_clientDataBackupService.ExportFailed -= OnExportFailedEventHandler;
+
+				_clientDataBackupService.ImportStarted -= OnImportStartedEventHandler;
+				_clientDataBackupService.ImportCompleted -= OnImportCompletedEventHandler;
+				_clientDataBackupService.ImportFailed -= OnImportFailedEventHandler;
+			}
+
+			base.Close();
+		}
+
+		private void OnExportBackupEventHandler()
 		{
 			_clientDataBackupService.Export();
 		}
-		
-		private void OnImportButtonClickedEventHandler()
+
+		private void OnImportBackupEventHandler()
 		{
 			_clientDataBackupService.Import();
+		}
+
+		private void OnExportStartedEventHandler()
+		{
+			_settingsBackupManagementElement.SetNotificationText(UIConstants.SettingsPanelConstants.BACKUP_CREATING_MESSAGE);
+		}
+
+		private void OnExportCompletedEventHandler(string backupName)
+		{
+			_settingsBackupManagementElement.SetNotificationText(UIConstants.SettingsPanelConstants.BACKUP_SUCCESSFULLY_CREATED);
+		}
+
+		private void OnExportFailedEventHandler(string failedMessage)
+		{
+			_settingsBackupManagementElement.SetNotificationText(failedMessage);
+		}
+		
+		private void OnImportStartedEventHandler()
+		{
+			_settingsBackupManagementElement.SetNotificationText(UIConstants.SettingsPanelConstants.BACKUP_IMPORTING_MESSAGE);
+		}
+
+		private void OnImportCompletedEventHandler(ClientData importedData)
+		{
+			_accountController.ClientData = importedData;
+			_accountController.UpdateLastBackupDate(DateTime.Now);
+			_settingsBackupManagementElement.SetNotificationText(UIConstants.SettingsPanelConstants.BACKUP_SUCCESSFULLY_IMPORTED);
+		}
+
+		private void OnImportFailedEventHandler(string failedMessage)
+		{
+			_settingsBackupManagementElement.SetNotificationText(failedMessage);
 		}
 	}
 }
