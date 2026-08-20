@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using TMPro;
 using TrainingApp.Configs.UI;
 using TrainingApp.Constants;
@@ -11,11 +12,16 @@ namespace TrainingApp.UI
 {
 	public class CalendarDayElement : MonoBehaviour, IDestroyableElement<CalendarDayElement>
 	{
+		private const float CURRENT_DATE_DEFAULT_WIDTH = 14f;
+		
 		[SerializeField]
 		private Button _dayButton;
 		
 		[SerializeField]
 		private TMP_Text _dayText;
+
+		[SerializeField]
+		private Image _currentDateHighlightImage;
 
 		[SerializeField]
 		private Image _trainingLogoImage;
@@ -29,10 +35,56 @@ namespace TrainingApp.UI
 
 		public event Action<CalendarDayElement> DestroyEvent;
 
-		public void Initialize(DayData dayData, Sprite trainingLogo, Color trainingLogoColor, Sprite subTrainingLogo, Color subTrainingLogoColor, Action<DayData> daySelectCallback = null)
+		public void Initialize(
+			DayData dayData, 
+			Sprite trainingLogo, 
+			Color trainingLogoColor, 
+			Sprite subTrainingLogo, 
+			Color subTrainingLogoColor, 
+			Action<DayData> daySelectCallback = null)
 		{
 			_dayText.text = dayData.DateTime.Day.ToString();
 
+			InitTrainingLogoImage(dayData, trainingLogo, trainingLogoColor);
+			InitSubTrainingLogoImage(subTrainingLogo, subTrainingLogoColor);
+			SetBackgroundColor(dayData);
+
+			_dayButton.onClick.RemoveAllListeners();
+			_dayButton.onClick.AddListener(() => daySelectCallback?.Invoke(dayData));
+
+			StartCoroutine(InitCurrentDateHighlightImageOnNextFrame(dayData));
+		}
+		
+		public void Destroy()
+		{
+			DestroyEvent?.Invoke(this);
+		}
+
+		private IEnumerator InitCurrentDateHighlightImageOnNextFrame(DayData dayData)
+		{
+			if (dayData.DateTime.Year == DateTime.Today.Year
+			    && dayData.DateTime.Month == DateTime.Today.Month
+			    && dayData.DateTime.Day == DateTime.Today.Day)
+			{
+				yield return null;
+				
+				_currentDateHighlightImage.gameObject.SetActive(true);
+				RectTransform rectTransform = _currentDateHighlightImage.rectTransform;
+				rectTransform.SetSizeWithCurrentAnchors(
+					RectTransform.Axis.Horizontal,
+					CURRENT_DATE_DEFAULT_WIDTH + _dayText.GetRenderedValues().x);
+			}
+			else
+			{
+				_currentDateHighlightImage.gameObject.SetActive(false);
+			}
+		}
+
+		private void InitTrainingLogoImage(
+			DayData dayData, 
+			Sprite trainingLogo, 
+			Color trainingLogoColor)
+		{
 			if (trainingLogo)
 			{
 				_trainingLogoImage.sprite = trainingLogo;
@@ -43,7 +95,12 @@ namespace TrainingApp.UI
 			{
 				_trainingLogoImage.gameObject.SetActive(false);
 			}
-			
+		}
+
+		private void InitSubTrainingLogoImage(
+			Sprite subTrainingLogo, 
+			Color subTrainingLogoColor)
+		{
 			if (subTrainingLogo)
 			{
 				_subTrainingLogoImage.sprite = subTrainingLogo;
@@ -53,16 +110,6 @@ namespace TrainingApp.UI
 			{
 				_subTrainingLogoImage.gameObject.SetActive(false);
 			}
-
-			SetBackgroundColor(dayData);
-
-			_dayButton.onClick.RemoveAllListeners();
-			_dayButton.onClick.AddListener(() => daySelectCallback?.Invoke(dayData));
-		}
-		
-		public void Destroy()
-		{
-			DestroyEvent?.Invoke(this);
 		}
 		
 		private void SetBackgroundColor(DayData dayData)
@@ -77,7 +124,9 @@ namespace TrainingApp.UI
 			{
 				backgroundColor = _trainingButtonPresetConfig.HalfCompletedTrainingColor;
 			}
-			else if (dayData.DateTime.Date >= DateTime.Today.Date || dayData.ExerciseGuid == UIConstants.REST_FROM_TRAINING || dayData.ExerciseGuid == "")
+			else if (dayData.DateTime.Date >= DateTime.Today.Date 
+			         || dayData.ExerciseGuid == UIConstants.REST_FROM_TRAINING 
+			         || dayData.ExerciseGuid == "")
 			{
 				backgroundColor = _trainingButtonPresetConfig.InactiveColor;
 			}

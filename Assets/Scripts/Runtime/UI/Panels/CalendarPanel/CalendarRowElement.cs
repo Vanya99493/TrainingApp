@@ -14,7 +14,10 @@ namespace TrainingApp.UI
 
 		private List<CalendarDayElement> _calendarDayElements = new();
 
-		public void Initialize(List<CalendarDayInitializationData> days, WeekType weekType, Action<DayData> daySelectCallback = null)
+		public void Initialize(
+			List<CalendarDayInitializationData> days, 
+			WeekType weekType, 
+			Action<DayData> daySelectCallback = null)
 		{
 			if (weekType == WeekType.First)
 			{
@@ -27,7 +30,13 @@ namespace TrainingApp.UI
 			foreach (var day in days)
 			{
 				var calendarDayElement = _calendarDayElementFactory.InstantiateElement();
-				calendarDayElement.Initialize(day.DayData, day.TrainingLogo, day.TrainingLogoColor, day.SubTrainingLogo, day.SubTrainingLogoColor, daySelectCallback);
+				calendarDayElement.Initialize(
+					day.DayData, 
+					day.TrainingLogo, 
+					day.TrainingLogoColor, 
+					day.SubTrainingLogo, 
+					day.SubTrainingLogoColor, 
+					daySelectCallback);
 				_calendarDayElements.Add(calendarDayElement);
 			}
 			
