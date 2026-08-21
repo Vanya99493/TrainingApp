@@ -10,7 +10,7 @@ namespace TrainingApp.UI
 	public class MainMenuPanel : BasePanel
 	{
 		[SerializeField]
-		private StreakElement _streakElement;
+		private HeaderElement _headerElement;
 		
 		[SerializeField]
 		private EnglishLessonElement _englishLessonElement;
@@ -45,7 +45,7 @@ namespace TrainingApp.UI
 		{
 			_todayData = _accountController.GetDayData(DateTime.Today);
 			
-			_streakElement.Initialize(_accountController.GetStreak());
+			_headerElement.Initialize(_accountController);
 			_englishLessonElement.Initialize(_todayData.DateTime, _todayData.EnglishLessonData);
 			_subTrainingElement.Initialize(_todayData.DateTime, _accountController.GetSubTraining(_todayData.SubTrainingGuid), _todayData.IsSubTrainingCompleted);
 			_teethBrushingElement.Initialize(_todayData.TeethData);
@@ -102,6 +102,8 @@ namespace TrainingApp.UI
 		{
 			_todayData.HarmfulActivitiesData = harmfulActivitiesData;
 			_accountController.AddOrUpdateDayData(_todayData);
+			
+			_headerElement.UpdateSoberStreak();
 		}
 
 		private void OpenTrainingPanel(DateTime date)

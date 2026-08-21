@@ -1,4 +1,5 @@
 ﻿using System;
+using TrainingApp.Enums;
 using TrainingApp.Models;
 using TrainingApp.ServiceLocatorScripts;
 using TrainingApp.SessionScripts;
@@ -7,7 +8,7 @@ using UnityEngine;
 
 namespace TrainingApp.AccountScripts
 {
-	public class AccountController : MonoBehaviour, IService
+	public class AccountController : MonoBehaviour, IAccountController, IService
 	{
 		private IClientDataProvider _clientDataProvider;
 		
@@ -26,67 +27,84 @@ namespace TrainingApp.AccountScripts
 
 		public DayData GetDayData(DateTime dateTime) => ClientData.DaysData.GetDayData(dateTime);
 
-		public int GetStreak()
+		public int GetTrainingStreak()
 		{
 			int streak = 0;
-			bool endOfStreakIsReached = false;
-			DateTime currentDate = DateTime.Today.Date;
-			DateTime streakCalculationDate = currentDate;
-			
-			for (int iYear = currentDate.Year; iYear > 0; iYear--)
+			DateTime date = DateTime.Today;
+
+			while (true)
 			{
-				if (endOfStreakIsReached)
+				DayData dayData = GetDayData(date);
+
+				if (dayData?.IsTrainingCompleted == true ||
+				    dayData?.IsSubTrainingCompleted == true)
+				{
+					streak++;
+				}
+				else if (date != DateTime.Today)
 				{
 					break;
 				}
-				
-				int month = streakCalculationDate.Month == currentDate.Month 
-					? streakCalculationDate.Month 
-					: 12;
-				
-				for (int iMonth = month; iMonth > 0; iMonth--)
-				{
-					if (endOfStreakIsReached)
-					{
-						break;
-					}
-					
-					int day = streakCalculationDate.Day == currentDate.Day
-						? streakCalculationDate.Day
-						: DateTime.DaysInMonth(iYear, iMonth);
-					
-					for (int iDay = day; iDay > 0; iDay--)
-					{
-						if (endOfStreakIsReached)
-						{
-							break;
-						}
-						
-						DayData dayData = GetDayData(new  DateTime(
-							iYear, 
-							iMonth, iDay
-							));
 
-						if (dayData != null)
-						{
-							if (dayData.IsTrainingCompleted ||
-							    dayData.IsSubTrainingCompleted)
-							{
-								streak++;
-								continue;
-							}
-							else if (dayData.DateTime.Date == currentDate.Date)
-							{
-								continue;
-							}
-						}
-
-						endOfStreakIsReached = true;
-					}
-				}
+				date = date.AddDays(-1);
 			}
 
 			return streak;
+		}
+
+		public int GetEnglishStreak()
+		{
+			int streak = 0;
+			DateTime date = DateTime.Today;
+
+			while (true)
+			{
+				DayData dayData = GetDayData(date);
+
+				if (dayData?.EnglishLessonData.SpentTimeType != SpentTimeType.Min0)
+				{
+					streak++;
+				}
+				else if (date != DateTime.Today)
+				{
+					break;
+				}
+
+				date = date.AddDays(-1);
+			}
+
+			return streak;
+		}
+
+		public int GetSoberStreak()
+		{
+			int streak = 0;
+			DateTime date = DateTime.Today;
+
+			while (true)
+			{
+				DayData dayData = GetDayData(date);
+
+				if (dayData?.HarmfulActivitiesData.IsDrinkingToday == false)
+				{
+					streak++;
+				}
+				else
+				{
+					break;
+				}
+
+				date = date.AddDays(-1);
+			}
+
+			return streak;
+		}
+
+		public int GetEfficiency()
+		{
+			// TODO: add efficiency calculation
+
+			return 0;
 		}
 
 		public void AddOrUpdateDayData(DayData dayData)
