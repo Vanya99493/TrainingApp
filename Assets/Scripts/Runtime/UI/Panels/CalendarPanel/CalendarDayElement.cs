@@ -3,6 +3,7 @@ using System.Collections;
 using TMPro;
 using TrainingApp.Configs.UI;
 using TrainingApp.Constants;
+using TrainingApp.Enums;
 using TrainingApp.Extensions;
 using TrainingApp.Models;
 using UnityEngine;
@@ -29,9 +30,19 @@ namespace TrainingApp.UI
 		[SerializeField]
 		private Image _subTrainingLogoImage;
 
+		[Header("English")]
+		[SerializeField]
+		private GameObject _englishLearningElement;
+		
+		[SerializeField]
+		private Image _englishLearningImage;
+
 		[Space(20)]
 		[SerializeField]
 		private TrainingButtonPresetConfig _trainingButtonPresetConfig;
+		
+		[SerializeField]
+		private EnglishLessonButtonConfig _englishLessonButtonConfig;
 
 		public event Action<CalendarDayElement> DestroyEvent;
 
@@ -47,6 +58,7 @@ namespace TrainingApp.UI
 
 			InitTrainingLogoImage(dayData, trainingLogo, trainingLogoColor);
 			InitSubTrainingLogoImage(subTrainingLogo, subTrainingLogoColor);
+			InitEnglishLearningImage(dayData);
 			SetBackgroundColor(dayData);
 
 			_dayButton.onClick.RemoveAllListeners();
@@ -110,6 +122,12 @@ namespace TrainingApp.UI
 			{
 				_subTrainingLogoImage.gameObject.SetActive(false);
 			}
+		}
+
+		private void InitEnglishLearningImage(DayData dayData)
+		{
+			_englishLearningImage.color = _englishLessonButtonConfig.GetButtonColorByType(dayData.EnglishLessonData.SpentTimeType);
+			_englishLearningElement.gameObject.SetActive(dayData.EnglishLessonData.SpentTimeType != SpentTimeType.Min0);
 		}
 		
 		private void SetBackgroundColor(DayData dayData)
