@@ -2025,8 +2025,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 619.0336, y: -50}
-  m_SizeDelta: {x: 412.6891, y: 100}
+  m_AnchoredPosition: {x: 619.48596, y: -50}
+  m_SizeDelta: {x: 412.99066, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &233764955
 MonoBehaviour:
@@ -3121,8 +3121,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 412.6891, y: 0}
-  m_SizeDelta: {x: 825.3782, y: 100}
+  m_AnchoredPosition: {x: 412.99066, y: 0}
+  m_SizeDelta: {x: 825.9813, y: 100}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &309234471
 MonoBehaviour:
@@ -4869,7 +4869,7 @@ MonoBehaviour:
   m_InputType: 0
   m_AsteriskChar: 42
   m_KeyboardType: 0
-  m_LineType: 0
+  m_LineType: 2
   m_HideMobileInput: 0
   m_HideSoftKeyboard: 0
   m_CharacterValidation: 0
@@ -4900,8 +4900,8 @@ MonoBehaviour:
   m_OnTouchScreenKeyboardStatusChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
-  m_CustomCaretColor: 0
+  m_CaretColor: {r: 1, g: 1, b: 1, a: 1}
+  m_CustomCaretColor: 1
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
   m_Text: 
   m_CaretBlinkRate: 0.85
@@ -6379,8 +6379,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 49.56299, y: -40}
-  m_SizeDelta: {x: 99.12606, y: 80}
+  m_AnchoredPosition: {x: 49.663555, y: -40}
+  m_SizeDelta: {x: 99.32711, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &621376211
 MonoBehaviour:
@@ -7378,7 +7378,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3423013822327142202, guid: e37157246f0d07d4dbbcd2b6b28f316c, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 58.14148
+      value: 58.14152
       objectReference: {fileID: 0}
     - target: {fileID: 3423013822327142202, guid: e37157246f0d07d4dbbcd2b6b28f316c, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -7983,8 +7983,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 257.81516, y: -40}
-  m_SizeDelta: {x: 99.12606, y: 80}
+  m_AnchoredPosition: {x: 258.31778, y: -40}
+  m_SizeDelta: {x: 99.32711, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &766605831
 MonoBehaviour:
@@ -8692,7 +8692,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 3
+  m_TextWrappingMode: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -14376,7 +14376,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 3
+  m_TextWrappingMode: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -14725,8 +14725,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 153.68909, y: -40}
-  m_SizeDelta: {x: 99.12606, y: 80}
+  m_AnchoredPosition: {x: 153.99066, y: -40}
+  m_SizeDelta: {x: 99.32711, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1389519385
 MonoBehaviour:
@@ -15609,7 +15609,7 @@ MonoBehaviour:
   m_InputType: 0
   m_AsteriskChar: 42
   m_KeyboardType: 0
-  m_LineType: 0
+  m_LineType: 2
   m_HideMobileInput: 0
   m_HideSoftKeyboard: 0
   m_CharacterValidation: 0
@@ -15640,8 +15640,8 @@ MonoBehaviour:
   m_OnTouchScreenKeyboardStatusChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
-  m_CustomCaretColor: 0
+  m_CaretColor: {r: 1, g: 1, b: 1, a: 1}
+  m_CustomCaretColor: 1
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
   m_Text: 
   m_CaretBlinkRate: 0.85
@@ -16981,8 +16981,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 206.34454, y: -50}
-  m_SizeDelta: {x: 412.6891, y: 100}
+  m_AnchoredPosition: {x: 206.49533, y: -50}
+  m_SizeDelta: {x: 412.99066, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1583893825
 MonoBehaviour:
@@ -19067,8 +19067,8 @@ MonoBehaviour:
   m_OnTouchScreenKeyboardStatusChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
-  m_CustomCaretColor: 0
+  m_CaretColor: {r: 1, g: 1, b: 1, a: 1}
+  m_CustomCaretColor: 1
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
   m_Text: 
   m_CaretBlinkRate: 0.85
@@ -19975,7 +19975,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 3
+  m_TextWrappingMode: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -21001,7 +21001,7 @@ MonoBehaviour:
   m_InputType: 0
   m_AsteriskChar: 42
   m_KeyboardType: 0
-  m_LineType: 0
+  m_LineType: 2
   m_HideMobileInput: 0
   m_HideSoftKeyboard: 0
   m_CharacterValidation: 0
@@ -21032,8 +21032,8 @@ MonoBehaviour:
   m_OnTouchScreenKeyboardStatusChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
-  m_CustomCaretColor: 0
+  m_CaretColor: {r: 1, g: 1, b: 1, a: 1}
+  m_CustomCaretColor: 1
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
   m_Text: 
   m_CaretBlinkRate: 0.85
